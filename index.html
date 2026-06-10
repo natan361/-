@@ -1256,7 +1256,7 @@
 
       /* — Quote Wizard mobile — */
       .qw-progress { padding: 18px 18px 0; }
-      .qw-viewport { padding: 20px 18px 4px; }
+      .qw-viewport { padding: 20px 18px 4px; min-height: 320px; }
       .qw-nav { padding: 0 18px 20px; }
       .qw-ps-dot { width: 30px; height: 30px; font-size: 0.78rem; }
       .qw-ps-label { font-size: 0.62rem; }
@@ -1543,7 +1543,12 @@
     .qw-ps-line.done { background: var(--orange); }
 
     /* — Viewport + step animation — */
-    .qw-viewport { padding: 28px 34px 6px; }
+    .qw-viewport {
+      padding: 28px 34px 6px;
+      min-height: 340px;
+    }
+
+    #quoteWizard { scroll-margin-top: 80px; }
 
     .qw-step { display: none; }
 
@@ -3070,6 +3075,12 @@
         window.initQuoteWizardPlaces();
       }
       if (n === 4) renderSummary();
+
+      // Re-anchor the card so height changes don't cause a page scroll jump
+      requestAnimationFrame(function () {
+        var wrap = document.getElementById('quoteWizard');
+        if (wrap) wrap.scrollIntoView({ behavior: 'instant', block: 'nearest' });
+      });
     }
 
     // ── Validate step 1 ──────────────────────────────
@@ -3113,7 +3124,7 @@
         t.safe    ? { label: 'כספת',            val: t.safe   } : null,
         t.marble  ? { label: 'שולחן שיש',       val: t.marble } : null,
         t.trans   ? { label: 'הובלה בין-עירונית', val: t.trans } : null,
-        t.trans === 0 && (W.addrFrom || W.addrTo) ? { label: 'הובלה בתוך ירושלים', val: 0, free: true } : null
+        W.bothJerusalem ? { label: 'הובלה בתוך ירושלים', val: 0, free: true } : null
       ].filter(Boolean);
 
       var html = rows.map(function(r) {
@@ -3353,11 +3364,25 @@
       };
     }
 
+    // ── Jerusalem detection ────────────────────────────
+    function _isJerusalem(label) {
+      return /ירושלים|jerusalem/i.test(label || '');
+    }
+
     // ── Badge + W state update ─────────────────────────
     function _applyDistance(coordFrom, coordTo) {
       var W     = window.__quoteWizardState;
       var badge = document.getElementById('qwTransBadge');
-      badge.className   = 'qw-transport-badge';
+      badge.className = 'qw-transport-badge';
+
+      // Both addresses inside Jerusalem → no travel surcharge
+      if (coordFrom.isJerusalem && coordTo.isJerusalem) {
+        if (W) { W.transport = 0; W.distance_km = 0; W.bothJerusalem = true; }
+        badge.textContent = 'הובלה בתוך ירושלים – ללא תוספת נסיעה ✓';
+        return;
+      }
+
+      if (W) W.bothJerusalem = false;
       badge.textContent = '...מחשב מרחק';
 
       _distance(coordFrom, coordTo, function (res) {
@@ -3370,7 +3395,7 @@
         var cost = Math.round(km) * 15;
         if (W) { W.transport = cost; W.distance_km = km; }
         badge.textContent = 'מרחק: ' + km + ' ק"מ · תוספת נסיעה: '
-          + (cost > 0 ? '₪' + cost.toLocaleString('he-IL') : 'ללא (תוך עיר)');
+          + '₪' + cost.toLocaleString('he-IL');
       });
     }
 
@@ -3413,7 +3438,7 @@
             var lat = picked.lat, lon = picked.lon;
             _cacheSet(_norm(picked.label), lat, lon);
             window._qwCoords = window._qwCoords || {};
-            window._qwCoords[key] = { lat: lat, lon: lon };
+            window._qwCoords[key] = { lat: lat, lon: lon, isJerusalem: _isJerusalem(picked.label) };
 
             var other = window._qwCoords && window._qwCoords[otherKey];
             if (other) _applyDistance(window._qwCoords[key], other);
