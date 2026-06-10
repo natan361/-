@@ -1540,7 +1540,7 @@
       transition: background 0.3s;
     }
 
-    .qw-ps-line.filled { background: var(--orange); }
+    .qw-ps-line.done { background: var(--orange); }
 
     /* — Viewport + step animation — */
     .qw-viewport { padding: 28px 34px 6px; }
@@ -1598,6 +1598,7 @@
     .qw-stepper-btn {
       width: 52px; height: 52px;
       border: none;
+      border-radius: 50%;
       background: var(--off-white);
       color: var(--navy);
       font-size: 1.4rem;
@@ -1607,6 +1608,8 @@
       transition: background 0.15s;
       flex-shrink: 0;
       -webkit-tap-highlight-color: transparent;
+      appearance: none;
+      -webkit-appearance: none;
     }
 
     .qw-stepper-btn:hover  { background: var(--gray-light); }
@@ -1685,6 +1688,7 @@
 
     /* — Address inputs — */
     .qw-addr-input {
+      display: block;
       width: 100%;
       padding: 14px 18px;
       border: 1.5px solid var(--gray-light);
@@ -1696,6 +1700,9 @@
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
       direction: rtl;
+      appearance: none;
+      -webkit-appearance: none;
+      box-sizing: border-box;
     }
 
     .qw-addr-input::placeholder { color: var(--gray); }
@@ -2032,7 +2039,7 @@
     @media (max-width: 768px) { .footer-legal { gap: 6px 14px; } }
 
   </style>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-REPLACE_WITH_YOUR_KEY&libraries=places&callback=initQuoteWizard&loading=async" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-REPLACE_WITH_YOUR_KEY&libraries=places&loading=async" async defer></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
@@ -3007,6 +3014,9 @@
       W.step = n;
       updateProgress();
       updateNav();
+      if (n === 3 && window.google && window.initQuoteWizardPlaces) {
+        window.initQuoteWizardPlaces();
+      }
       if (n === 4) renderSummary();
     }
 
@@ -3183,8 +3193,11 @@
     window.__quoteWizardState = W;
   })();
 
-  // ── Google Maps callback (Places + Distance Matrix) ────
-  window.initQuoteWizard = function () {
+  // ── Google Maps Places – lazy init on step 3 ────────
+  window._qwPlacesReady = false;
+  window.initQuoteWizardPlaces = function () {
+    if (window._qwPlacesReady) return;
+    window._qwPlacesReady = true;
     var fromInput = document.getElementById('qwAddrFrom');
     var toInput   = document.getElementById('qwAddrTo');
     if (!fromInput || !toInput || !window.google) return;
