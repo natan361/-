@@ -1254,22 +1254,18 @@
         font-size: 0.77rem;
       }
 
-      /* — Calculator — */
-      .calc-card { grid-template-columns: 1fr; border-radius: 16px; }
-      .calc-inputs-panel {
-        border-left: none;
-        border-inline-start: none;
-        border-bottom: 1px solid rgba(238,240,246,0.9);
-        padding: 22px 18px;
-        gap: 18px;
-      }
-      .calc-results-panel { padding: 22px 18px; }
-      .calc-total-amount { font-size: 2.2rem; }
-      .calc-stepper { display: flex; width: 100%; }
-      .calc-stepper button { width: 48px; height: 50px; }
-      .calc-stepper input { flex: 1; width: auto; height: 50px; font-size: 1.1rem; }
-      .calc-service-item { padding: 12px 14px; }
-      .calc-total-box .btn-primary { width: 100%; justify-content: center; }
+      /* — Quote Wizard mobile — */
+      .qw-progress { padding: 18px 18px 0; }
+      .qw-viewport { padding: 20px 18px 4px; }
+      .qw-nav { padding: 0 18px 20px; }
+      .qw-ps-dot { width: 30px; height: 30px; font-size: 0.78rem; }
+      .qw-ps-label { font-size: 0.62rem; }
+      .qw-ps-line { margin-top: 14px; }
+      .qw-stepper-btn { width: 48px; height: 50px; }
+      .qw-stepper-val { line-height: 50px; min-width: 68px; font-size: 1.05rem; }
+      .qw-total-amount { font-size: 2.8rem; }
+      .qw-choice { padding: 12px 8px; font-size: 0.88rem; min-height: 48px; }
+      .qw-cta-wa, .qw-cta-call { font-size: 0.95rem; padding: 14px 16px; }
 
       /* — Mobile nav open state — */
       .nav-links.open { top: 60px; padding: 6px 0 14px; gap: 0; }
@@ -1469,227 +1465,438 @@
       .areas-grid { grid-template-columns: 1fr; gap: 8px; }
     }
 
-    /* ─── CALCULATOR ────────────────────────────────────── */
-    .calc-card {
-      background: rgba(255,255,255,0.60);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1.5px solid rgba(238,240,246,0.7);
-      border-radius: 20px;
+    /* ─── QUOTE WIZARD ──────────────────────────────────── */
+    .qw-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.63);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(238,240,246,0.78);
+      border-radius: 22px;
       overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      box-shadow: 0 8px 48px rgba(13,37,83,0.12);
+      box-shadow: 0 12px 60px rgba(13,37,83,0.18);
     }
 
-    .calc-inputs-panel {
-      padding: 40px 44px;
+    /* — Progress bar — */
+    .qw-progress {
+      background: var(--navy);
+      padding: 22px 32px 20px;
+    }
+
+    .qw-progress-steps {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .qw-ps {
       display: flex;
       flex-direction: column;
-      gap: 30px;
-      border-left: 1px solid rgba(238,240,246,0.9);
+      align-items: center;
+      gap: 7px;
+      flex: 1;
     }
 
-    .calc-results-panel {
-      padding: 40px 44px;
-      display: flex;
-      flex-direction: column;
+    .qw-ps-dot {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700;
+      color: rgba(255,255,255,0.38);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
     }
 
-    /* Cascade fix: desktop rules above override the earlier mobile block,
-       so we re-declare the mobile overrides here, after the desktop rules. */
-    @media (max-width: 768px) {
-      .calc-card { grid-template-columns: 1fr; }
-      .calc-inputs-panel {
-        border-left: none;
-        border-inline-start: none;
-        border-bottom: 1px solid rgba(238,240,246,0.9);
-        padding: 22px 18px;
-        gap: 18px;
-      }
-      .calc-results-panel { padding: 22px 18px; }
+    .qw-ps.done .qw-ps-dot,
+    .qw-ps.active .qw-ps-dot {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
     }
 
-    .calc-field > label {
+    .qw-ps.active .qw-ps-dot {
+      box-shadow: 0 0 0 4px rgba(242,101,34,0.22);
+    }
+
+    .qw-ps-label {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.38);
+      text-align: center;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+
+    .qw-ps.active .qw-ps-label,
+    .qw-ps.done  .qw-ps-label { color: rgba(255,255,255,0.8); }
+
+    .qw-ps-line {
+      flex: 1;
+      height: 2px;
+      background: rgba(255,255,255,0.14);
+      align-self: flex-start;
+      margin-top: 16px;
+      transition: background 0.3s;
+    }
+
+    .qw-ps-line.filled { background: var(--orange); }
+
+    /* — Viewport + step animation — */
+    .qw-viewport { padding: 28px 34px 6px; }
+
+    .qw-step { display: none; }
+
+    .qw-step.active {
       display: block;
-      font-size: 0.82rem;
+      animation: qwIn 0.28s ease;
+    }
+
+    @keyframes qwIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .qw-step-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 22px;
+      letter-spacing: -0.3px;
+    }
+
+    /* — Fields — */
+    .qw-field { margin-bottom: 22px; }
+
+    .qw-field-label {
+      display: block;
+      font-size: 0.78rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
+      letter-spacing: 0.9px;
       color: var(--text-soft);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    .calc-field-hint {
+    .qw-field-hint {
       font-size: 0.77rem;
       color: var(--gray);
-      margin-top: 7px;
+      margin-bottom: 10px;
+      line-height: 1.5;
     }
 
-    .calc-stepper {
+    /* — Stepper — */
+    .qw-stepper {
       display: inline-flex;
       align-items: center;
       border: 1.5px solid var(--gray-light);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       background: white;
     }
 
-    .calc-stepper button {
-      width: 44px; height: 44px;
-      background: rgba(247,248,252,0.95);
+    .qw-stepper-btn {
+      width: 52px; height: 52px;
       border: none;
-      cursor: pointer;
+      background: var(--off-white);
       color: var(--navy);
+      font-size: 1.4rem;
+      font-weight: 300;
+      cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: background 0.15s;
       flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .calc-stepper button:hover  { background: var(--gray-light); }
-    .calc-stepper button:active { background: rgba(242,101,34,0.12); }
+    .qw-stepper-btn:hover  { background: var(--gray-light); }
+    .qw-stepper-btn:active { background: rgba(242,101,34,0.12); }
+    .qw-stepper-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    .calc-stepper input {
-      width: 64px; height: 44px;
-      border: none;
-      border-right: 1.5px solid var(--gray-light);
-      border-left: 1.5px solid var(--gray-light);
+    .qw-stepper-val {
+      min-width: 78px;
       text-align: center;
-      font-family: 'Heebo', sans-serif;
       font-size: 1.15rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--navy);
-      background: white;
-      outline: none;
-      -moz-appearance: textfield;
+      border-right: 1.5px solid var(--gray-light);
+      border-left:  1.5px solid var(--gray-light);
+      padding: 0 8px;
+      line-height: 52px;
+      white-space: nowrap;
     }
 
-    .calc-stepper input::-webkit-outer-spin-button,
-    .calc-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .qw-stepper-hint {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--orange);
+      margin-top: 8px;
+    }
 
-    .calc-services { display: flex; flex-direction: column; gap: 10px; }
+    /* — Yes / No choices — */
+    .qw-choice-row { display: flex; gap: 10px; }
 
-    .calc-service-item {
+    .qw-choice {
+      flex: 1;
+      padding: 13px 12px;
+      border: 1.5px solid var(--gray-light);
+      border-radius: 12px;
+      background: white;
+      color: var(--text-soft);
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Heebo', sans-serif;
+      cursor: pointer;
+      text-align: center;
+      min-height: 50px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .qw-choice:hover {
+      border-color: rgba(242,101,34,0.4);
+      background: rgba(242,101,34,0.04);
+      color: var(--navy);
+    }
+
+    .qw-choice.selected {
+      border-color: var(--orange);
+      background: rgba(242,101,34,0.08);
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* — Service price hint — */
+    .qw-svc-price {
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: var(--orange);
+      margin-top: 7px;
+      min-height: 1.1em;
+    }
+
+    /* — Divider — */
+    .qw-divider {
+      height: 1px;
+      background: var(--gray-light);
+      margin: 4px 0 20px;
+    }
+
+    /* — Address inputs — */
+    .qw-addr-input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1.5px solid var(--gray-light);
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font-family: 'Heebo', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      direction: rtl;
+    }
+
+    .qw-addr-input::placeholder { color: var(--gray); }
+
+    .qw-addr-input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(242,101,34,0.12);
+    }
+
+    .qw-transport-badge {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 13px 16px;
-      border: 1.5px solid var(--gray-light);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      user-select: none;
-    }
-
-    .calc-service-item:hover {
-      border-color: rgba(242,101,34,0.45);
-      background: rgba(242,101,34,0.03);
-    }
-
-    .calc-service-item.active {
-      border-color: var(--orange);
+      gap: 8px;
+      padding: 12px 16px;
       background: rgba(242,101,34,0.07);
+      border: 1px solid rgba(242,101,34,0.25);
+      border-radius: 10px;
+      margin-top: 14px;
+      font-size: 0.88rem;
+      color: var(--text-soft);
     }
 
-    .calc-service-item input[type="checkbox"] { display: none; }
+    .qw-transport-badge strong { color: var(--orange); }
+    .qw-transport-badge.hidden { display: none; }
 
-    .calc-service-box {
-      width: 20px; height: 20px;
-      border-radius: 5px;
-      border: 2px solid var(--gray-light);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: background 0.2s, border-color 0.2s;
+    .qw-skip-note {
+      font-size: 0.76rem;
+      color: var(--gray);
+      text-align: center;
+      margin-top: 14px;
     }
 
-    .calc-service-item.active .calc-service-box {
-      background: var(--orange);
-      border-color: var(--orange);
+    /* — Summary (step 4) — */
+    .qw-breakdown {
+      border: 1.5px solid var(--gray-light);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 18px;
+      background: white;
     }
 
-    .calc-service-box svg          { display: none; }
-    .calc-service-item.active .calc-service-box svg { display: block; }
-
-    .calc-service-info { display: flex; flex-direction: column; gap: 2px; }
-
-    .calc-service-name { font-size: 0.95rem; font-weight: 600; color: var(--navy); }
-    .calc-service-desc { font-size: 0.77rem; color: var(--gray); }
-
-    .calc-breakdown { flex: 1; }
-
-    .calc-breakdown-title {
-      font-size: 0.78rem;
+    .qw-bd-title {
+      padding: 12px 18px;
+      font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.8px;
       color: var(--orange);
-      margin-bottom: 14px;
+      background: rgba(242,101,34,0.04);
+      border-bottom: 1px solid var(--gray-light);
     }
 
-    .calc-row {
+    .qw-bd-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 13px 0;
+      padding: 12px 18px;
       border-bottom: 1px solid rgba(238,240,246,0.9);
     }
 
-    .calc-row:last-child { border-bottom: none; }
+    .qw-bd-row:last-child { border-bottom: none; }
+    .qw-bd-row.zero { opacity: 0.38; }
 
-    .calc-row-label { font-size: 0.9rem; color: var(--text-soft); }
+    .qw-bd-label { font-size: 0.88rem; color: var(--text-soft); }
 
-    .calc-row-value {
-      font-size: 0.95rem;
+    .qw-bd-value {
+      font-size: 0.92rem;
       font-weight: 700;
       color: var(--navy);
-      transition: color 0.2s;
     }
 
-    .calc-row-value.muted { color: var(--gray); font-weight: 400; }
+    .qw-bd-value.zero-v { color: var(--gray); font-weight: 400; font-size: 0.85rem; }
 
-    .calc-total-box {
-      margin-top: 22px;
-      background: rgba(13,37,83,0.05);
-      border: 1px solid rgba(13,37,83,0.08);
-      border-radius: 14px;
+    .qw-total-box {
+      background: var(--navy);
+      border-radius: 16px;
       padding: 24px 20px;
       text-align: center;
+      margin-bottom: 20px;
     }
 
-    .calc-total-label {
-      font-size: 0.75rem;
+    .qw-total-label {
+      font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--text-soft);
+      letter-spacing: 2.5px;
+      color: rgba(255,255,255,0.48);
       margin-bottom: 6px;
     }
 
-    .calc-total-amount {
+    .qw-total-amount {
       display: block;
-      font-size: 3rem;
+      font-size: 3.4rem;
       font-weight: 900;
       color: var(--orange);
-      line-height: 1.1;
-      letter-spacing: -1px;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 8px;
     }
 
-    .calc-total-amount.bump {
-      animation: calcBump 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    .qw-total-amount.qw-bump {
+      animation: qwBump 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    @keyframes calcBump {
+    @keyframes qwBump {
       0%   { transform: scale(1); }
-      50%  { transform: scale(1.1); }
+      50%  { transform: scale(1.06); }
       100% { transform: scale(1); }
     }
 
-    .calc-total-note {
+    .qw-total-note {
       font-size: 0.73rem;
-      color: var(--gray);
-      margin-top: 8px;
+      color: rgba(255,255,255,0.38);
       line-height: 1.55;
     }
+
+    /* — CTAs — */
+    .qw-ctas { display: flex; flex-direction: column; gap: 10px; }
+
+    .qw-cta-wa {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 16px 20px;
+      background: #25D366;
+      border: none; border-radius: 14px;
+      color: white;
+      font-size: 1rem; font-weight: 700; font-family: 'Heebo', sans-serif;
+      text-decoration: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 6px 20px rgba(37,211,102,0.28);
+    }
+
+    .qw-cta-wa:hover { background: #1dbd59; transform: translateY(-1px); }
+
+    .qw-cta-call {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 14px 20px;
+      background: rgba(13,37,83,0.06);
+      border: 1.5px solid rgba(13,37,83,0.15);
+      border-radius: 14px;
+      color: var(--navy);
+      font-size: 0.95rem; font-weight: 600; font-family: 'Heebo', sans-serif;
+      text-decoration: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .qw-cta-call:hover { background: rgba(13,37,83,0.1); }
+
+    /* — Navigation — */
+    .qw-nav {
+      padding: 14px 34px 26px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .qw-btn-back {
+      padding: 13px 20px;
+      background: none;
+      border: 1.5px solid var(--gray-light);
+      border-radius: 12px;
+      color: var(--gray);
+      font-size: 0.9rem; font-weight: 600;
+      font-family: 'Heebo', sans-serif;
+      cursor: pointer;
+      transition: all 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .qw-btn-back:hover { border-color: var(--navy); color: var(--navy); }
+    .qw-btn-back.hidden { visibility: hidden; pointer-events: none; }
+
+    .qw-btn-next {
+      flex: 1;
+      padding: 15px 24px;
+      background: var(--orange);
+      border: none; border-radius: 12px;
+      color: white;
+      font-size: 1rem; font-weight: 700;
+      font-family: 'Heebo', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 16px rgba(242,101,34,0.35);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .qw-btn-next:hover  { background: var(--orange-dark); transform: translateY(-1px); }
+    .qw-btn-next:active { transform: translateY(0); }
+    .qw-btn-next.hidden { display: none; }
+
+    /* — Error — */
+    .qw-err {
+      font-size: 0.82rem; color: #e5534b;
+      padding: 10px 14px;
+      background: rgba(229,83,75,0.08);
+      border: 1px solid rgba(229,83,75,0.2);
+      border-radius: 8px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .qw-err.show { display: block; }
 
     .nav-links.open {
       display: flex;
@@ -1825,6 +2032,7 @@
     @media (max-width: 768px) { .footer-legal { gap: 6px 14px; } }
 
   </style>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-REPLACE_WITH_YOUR_KEY&libraries=places&callback=initQuoteWizard&loading=async" async defer></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
@@ -2050,115 +2258,206 @@
   </div>
 </section>
 
-<!-- ─── CALCULATOR ────────────────────────────────────── -->
+<!-- ─── QUOTE WIZARD ────────────────────────────────── -->
 <section class="section" id="calculator">
   <div class="section-inner">
     <div class="section-header">
       <div class="section-eyebrow" data-i18n="calc.eyebrow">כמה תעלה ההובלה שלי?</div>
-      <h2 class="section-title" data-i18n="calc.title">מחשבון עלות הובלה</h2>
-      <p class="section-desc" data-i18n="calc.desc">הזינו את פרטי ההובלה וקבלו הערכת מחיר מיידית</p>
+      <h2 class="section-title" data-i18n="calc.title">אשף הצעת מחיר</h2>
+      <p class="section-desc" data-i18n="calc.desc">4 שלבים פשוטים · מחיר שקוף לחלוטין</p>
     </div>
 
-    <div class="calc-card">
+    <div class="qw-wrap" id="quoteWizard">
 
-      <!-- ─ INPUTS ─ -->
-      <div class="calc-inputs-panel" role="form" aria-label="מחשבון עלות הובלה">
-
-        <div class="calc-field">
-          <label for="calcRoomsVal" data-i18n="calc.rooms_label">מספר חדרים</label>
-          <div class="calc-stepper">
-            <button type="button" id="calcRoomsMinus" aria-label="הפחת חדר">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-            <input id="calcRoomsVal" type="number" value="1" min="1" aria-label="מספר חדרים" aria-describedby="calcRoomsHint" />
-            <button type="button" id="calcRoomsPlus" aria-label="הוסף חדר">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div id="calcRoomsHint" class="calc-field-hint" data-i18n="calc.rooms_hint">כל חדר: ₪1,000</div>
+      <!-- Progress -->
+      <div class="qw-progress">
+        <div class="qw-progress-steps">
+          <div class="qw-ps active" id="qwPs1"><div class="qw-ps-dot">1</div><span class="qw-ps-label">פרטי הובלה</span></div>
+          <div class="qw-ps-line" id="qwLine1"></div>
+          <div class="qw-ps" id="qwPs2"><div class="qw-ps-dot">2</div><span class="qw-ps-label">שירותים</span></div>
+          <div class="qw-ps-line" id="qwLine2"></div>
+          <div class="qw-ps" id="qwPs3"><div class="qw-ps-dot">3</div><span class="qw-ps-label">כתובות</span></div>
+          <div class="qw-ps-line" id="qwLine3"></div>
+          <div class="qw-ps" id="qwPs4"><div class="qw-ps-dot">4</div><span class="qw-ps-label">סיכום</span></div>
         </div>
-
-        <div class="calc-field">
-          <label for="calcFloorVal" data-i18n="calc.floor_label">קומה</label>
-          <div class="calc-stepper">
-            <button type="button" id="calcFloorMinus" aria-label="הפחת קומה">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-            <input id="calcFloorVal" type="number" value="0" min="0" aria-label="קומה" aria-describedby="calcFloorHint" />
-            <button type="button" id="calcFloorPlus" aria-label="הוסף קומה">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
-          </div>
-          <div id="calcFloorHint" class="calc-field-hint" data-i18n="calc.floor_hint">קומה 0 = קרקע · כל קומה מוסיפה ₪500</div>
-        </div>
-
-        <div class="calc-field">
-          <label data-i18n="calc.add_services">שירותים נוספים</label>
-          <div class="calc-services">
-
-            <label class="calc-service-item" id="calcPackingLabel">
-              <input type="checkbox" id="calcPackingCheck" />
-              <div class="calc-service-box">
-                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <div class="calc-service-info">
-                <span class="calc-service-name" data-i18n="calc.packing_name">שירות אריזה</span>
-                <span class="calc-service-desc" data-i18n="calc.packing_pct">70% ממחיר הבסיס</span>
-              </div>
-            </label>
-
-            <label class="calc-service-item" id="calcUnpackingLabel">
-              <input type="checkbox" id="calcUnpackingCheck" />
-              <div class="calc-service-box">
-                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </div>
-              <div class="calc-service-info">
-                <span class="calc-service-name" data-i18n="calc.unpacking_name">פריקה וסידור</span>
-                <span class="calc-service-desc" data-i18n="calc.unpacking_pct">70% ממחיר הבסיס</span>
-              </div>
-            </label>
-
-          </div>
-        </div>
-
       </div>
 
-      <!-- ─ RESULTS ─ -->
-      <div class="calc-results-panel">
+      <!-- Steps -->
+      <div class="qw-viewport">
 
-        <div class="calc-breakdown">
-          <div class="calc-breakdown-title" data-i18n="calc.breakdown_title">פירוט מחיר</div>
+        <!-- ── STEP 1: Moving Details ── -->
+        <div class="qw-step active" id="qwStep1">
+          <div class="qw-step-title">פרטי ההובלה</div>
 
-          <div class="calc-row">
-            <span class="calc-row-label" data-i18n="calc.base_label">מחיר הובלה בסיסי</span>
-            <span class="calc-row-value" id="calcBase">₪1,000</span>
+          <div class="qw-field">
+            <span class="qw-field-label">מספר חדרים</span>
+            <div class="qw-field-hint">החדרים קובעים את מחיר הבסיס</div>
+            <div class="qw-stepper">
+              <button type="button" class="qw-stepper-btn" id="qwRoomsM" aria-label="הפחת חדר">−</button>
+              <div class="qw-stepper-val" id="qwRoomsV">1</div>
+              <button type="button" class="qw-stepper-btn" id="qwRoomsP" aria-label="הוסף חדר">+</button>
+            </div>
+            <div class="qw-stepper-hint" id="qwRoomsHint">₪1,499</div>
           </div>
-          <div class="calc-row">
-            <span class="calc-row-label" data-i18n="calc.floor_result_label">תוספת קומה</span>
-            <span class="calc-row-value muted" id="calcFloor">—</span>
-          </div>
-          <div class="calc-row">
-            <span class="calc-row-label" data-i18n="calc.packing_label">אריזה</span>
-            <span class="calc-row-value muted" id="calcPacking">—</span>
-          </div>
-          <div class="calc-row">
-            <span class="calc-row-label" data-i18n="calc.unpacking_label">פריקה וסידור</span>
-            <span class="calc-row-value muted" id="calcUnpacking">—</span>
-          </div>
-        </div>
 
-        <div class="calc-total-box" aria-live="polite" aria-atomic="true" role="status">
-          <div class="calc-total-label" data-i18n="calc.total_label">סה"כ לתשלום</div>
-          <span class="calc-total-amount" id="calcTotal">₪1,000</span>
-          <div class="calc-total-note" data-i18n="calc.total_note">הערכת מחיר בלבד – לקבלת מחיר מדויק צרו קשר</div>
-          <a href="https://wa.me/972529014037" class="btn-primary" target="_blank" rel="noopener" style="margin-top:16px; justify-content:center; font-size:0.92rem; padding:12px 22px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span data-i18n="calc.cta">קבל הצעה מדויקת בוואטסאפ</span>
-          </a>
-        </div>
+          <div class="qw-field">
+            <span class="qw-field-label">קומה – נכס נוכחי</span>
+            <div class="qw-stepper">
+              <button type="button" class="qw-stepper-btn" id="qwPFlM" aria-label="הפחת">−</button>
+              <div class="qw-stepper-val" id="qwPFlV">קרקע</div>
+              <button type="button" class="qw-stepper-btn" id="qwPFlP" aria-label="הוסף">+</button>
+            </div>
+          </div>
 
+          <div class="qw-field" id="qwPElevF" style="display:none;">
+            <span class="qw-field-label">מעלית זמינה – נכס נוכחי?</span>
+            <div class="qw-field-hint">מעלית שמשמשת גם להובלת ארגזים ורהיטים</div>
+            <div class="qw-choice-row">
+              <button type="button" class="qw-choice" id="qwPEY">כן, יש מעלית</button>
+              <button type="button" class="qw-choice" id="qwPEN">אין מעלית</button>
+            </div>
+          </div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">קומה – נכס חדש</span>
+            <div class="qw-stepper">
+              <button type="button" class="qw-stepper-btn" id="qwDFlM" aria-label="הפחת">−</button>
+              <div class="qw-stepper-val" id="qwDFlV">קרקע</div>
+              <button type="button" class="qw-stepper-btn" id="qwDFlP" aria-label="הוסף">+</button>
+            </div>
+          </div>
+
+          <div class="qw-field" id="qwDElevF" style="display:none;">
+            <span class="qw-field-label">מעלית זמינה – נכס חדש?</span>
+            <div class="qw-field-hint">מעלית שמשמשת גם להובלת ארגזים ורהיטים</div>
+            <div class="qw-choice-row">
+              <button type="button" class="qw-choice" id="qwDEY">כן, יש מעלית</button>
+              <button type="button" class="qw-choice" id="qwDEN">אין מעלית</button>
+            </div>
+          </div>
+
+          <div class="qw-err" id="qwErr1">נא לבחור לגבי המעלית לפני שממשיכים</div>
+        </div><!-- /step1 -->
+
+        <!-- ── STEP 2: Additional Services ── -->
+        <div class="qw-step" id="qwStep2">
+          <div class="qw-step-title">שירותים נוספים</div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">שירות אריזה מלאה</span>
+            <div class="qw-field-hint">הצוות יארוז את כל התכולה בקרטונים ובחומרי ריפוד</div>
+            <div class="qw-choice-row">
+              <button type="button" class="qw-choice" id="qwPackY">כן, רוצה אריזה</button>
+              <button type="button" class="qw-choice" id="qwPackN">לא, תודה</button>
+            </div>
+            <div class="qw-svc-price" id="qwPackPrice"></div>
+          </div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">שירות פריקה וסידור מלא</span>
+            <div class="qw-field-hint">פריקת קרטונים, סידור הפריטים, פינוי קרטונים ריקים</div>
+            <div class="qw-choice-row">
+              <button type="button" class="qw-choice" id="qwUnpackY">כן, רוצה פריקה</button>
+              <button type="button" class="qw-choice" id="qwUnpackN">לא, תודה</button>
+            </div>
+            <div class="qw-svc-price" id="qwUnpackPrice"></div>
+          </div>
+
+          <div class="qw-divider"></div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">ארונות בגדים</span>
+            <div class="qw-field-hint">פירוק, הובלה והרכבה – ₪600 לארון</div>
+            <div class="qw-stepper">
+              <button type="button" class="qw-stepper-btn" id="qwWardrM" aria-label="הפחת">−</button>
+              <div class="qw-stepper-val" id="qwWardrV">0</div>
+              <button type="button" class="qw-stepper-btn" id="qwWardrP" aria-label="הוסף">+</button>
+            </div>
+          </div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">מיטות</span>
+            <div class="qw-field-hint">פירוק, הובלה והרכבה – ₪300 למיטה</div>
+            <div class="qw-stepper">
+              <button type="button" class="qw-stepper-btn" id="qwBedsM" aria-label="הפחת">−</button>
+              <div class="qw-stepper-val" id="qwBedsV">0</div>
+              <button type="button" class="qw-stepper-btn" id="qwBedsP" aria-label="הוסף">+</button>
+            </div>
+          </div>
+
+          <div class="qw-divider"></div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">כספת</span>
+            <div class="qw-field-hint">הובלת כספת – תוספת ₪600</div>
+            <div class="qw-choice-row">
+              <button type="button" class="qw-choice" id="qwSafeY">כן</button>
+              <button type="button" class="qw-choice" id="qwSafeN">לא</button>
+            </div>
+          </div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">שולחן שיש</span>
+            <div class="qw-field-hint">הובלת שולחן שיש כבד – תוספת ₪1,000</div>
+            <div class="qw-choice-row">
+              <button type="button" class="qw-choice" id="qwMarbleY">כן</button>
+              <button type="button" class="qw-choice" id="qwMarbleN">לא</button>
+            </div>
+          </div>
+        </div><!-- /step2 -->
+
+        <!-- ── STEP 3: Addresses ── -->
+        <div class="qw-step" id="qwStep3">
+          <div class="qw-step-title">כתובות</div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">כתובת הנכס הנוכחי</span>
+            <input type="text" id="qwAddrFrom" class="qw-addr-input" placeholder="הכניסו כתובת מוצא..." autocomplete="off" />
+          </div>
+
+          <div class="qw-field">
+            <span class="qw-field-label">כתובת הנכס החדש</span>
+            <input type="text" id="qwAddrTo" class="qw-addr-input" placeholder="הכניסו כתובת יעד..." autocomplete="off" />
+          </div>
+
+          <div id="qwTransBadge" class="qw-transport-badge hidden"></div>
+
+          <p class="qw-skip-note">ניתן לדלג – יחושב מחדש בשיחת האישור</p>
+        </div><!-- /step3 -->
+
+        <!-- ── STEP 4: Summary ── -->
+        <div class="qw-step" id="qwStep4">
+          <div class="qw-step-title">הצעת המחיר שלכם</div>
+
+          <div class="qw-breakdown" id="qwBreakdown"></div>
+
+          <div class="qw-total-box" aria-live="polite" aria-atomic="true" role="status">
+            <div class="qw-total-label">סה״כ משוער</div>
+            <span class="qw-total-amount" id="qwTotal">₪0</span>
+            <p class="qw-total-note">הצעת מחיר ראשונית · המחיר הסופי נקבע לאחר שיחה קצרה עם אלי</p>
+          </div>
+
+          <div class="qw-ctas">
+            <a id="qwWaBtn" href="https://wa.me/972529014037" class="qw-cta-wa" target="_blank" rel="noopener">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="white" aria-hidden="true" focusable="false"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.82.736 5.47 2.027 7.773L0 32l8.418-2.002A15.928 15.928 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 0 1-6.748-1.836l-.484-.286-5 1.19 1.21-4.863-.32-.504A13.236 13.236 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.267-9.897c-.397-.198-2.35-1.16-2.715-1.292-.364-.13-.63-.198-.896.198-.265.396-1.03 1.292-1.262 1.557-.232.264-.464.297-.861.099-.397-.198-1.678-.619-3.196-1.974-1.18-1.055-1.977-2.358-2.21-2.755-.232-.396-.025-.61.174-.807.18-.178.397-.465.596-.696.198-.232.265-.397.396-.662.132-.265.066-.496-.033-.695-.1-.198-.897-2.162-1.228-2.96-.323-.775-.65-.67-.896-.683h-.762c-.265 0-.695.1-1.06.496-.364.397-1.393 1.36-1.393 3.318s1.427 3.848 1.625 4.113c.199.265 2.807 4.285 6.803 6.009.951.41 1.693.655 2.271.838.954.304 1.822.261 2.51.158.765-.114 2.35-.96 2.682-1.888.33-.928.33-1.723.231-1.888-.099-.165-.364-.264-.762-.462z"/></svg>
+              שלחו הצעה בוואטסאפ
+            </a>
+            <a href="tel:0532253537" class="qw-cta-call">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              התקשרו עכשיו
+            </a>
+          </div>
+        </div><!-- /step4 -->
+
+      </div><!-- /viewport -->
+
+      <!-- Navigation -->
+      <div class="qw-nav">
+        <button type="button" class="qw-btn-back hidden" id="qwBack">חזרה</button>
+        <button type="button" class="qw-btn-next" id="qwNext">המשך</button>
       </div>
-    </div>
+
+    </div><!-- /qw-wrap -->
   </div>
 </section>
 
@@ -2612,84 +2911,340 @@
   var statsBar = document.querySelector('.stats-bar');
   if (statsBar) observer.observe(statsBar);
 
-  // ─── MOVING COST CALCULATOR ──────────────────────────
+  // ─── QUOTE WIZARD ────────────────────────────────────
   (function () {
-    var rooms = 1;
-    var floor = 0;
-    var withPacking = false;
-    var withUnpacking = false;
-
-    function calc() {
-      var base      = rooms * 1000;
-      var floorCost = floor * 500;
-      var packCost  = withPacking   ? Math.round(base * 0.7) : 0;
-      var unpackCost= withUnpacking ? Math.round(base * 0.7) : 0;
-      return { base: base, floor: floorCost, packing: packCost, unpacking: unpackCost,
-               total: base + floorCost + packCost + unpackCost };
-    }
-
-    function fmt(n) {
-      return '₪' + n.toLocaleString('he-IL');
-    }
-
-    function render() {
-      var r = calc();
-
-      document.getElementById('calcBase').textContent = fmt(r.base);
-
-      var flEl = document.getElementById('calcFloor');
-      flEl.textContent = r.floor > 0 ? fmt(r.floor) : '—';
-      flEl.className   = 'calc-row-value' + (r.floor === 0 ? ' muted' : '');
-
-      var pkEl = document.getElementById('calcPacking');
-      pkEl.textContent = r.packing > 0 ? fmt(r.packing) : '—';
-      pkEl.className   = 'calc-row-value' + (r.packing === 0 ? ' muted' : '');
-
-      var upEl = document.getElementById('calcUnpacking');
-      upEl.textContent = r.unpacking > 0 ? fmt(r.unpacking) : '—';
-      upEl.className   = 'calc-row-value' + (r.unpacking === 0 ? ' muted' : '');
-
-      var totalEl = document.getElementById('calcTotal');
-      totalEl.textContent = fmt(r.total);
-      totalEl.classList.remove('bump');
-      void totalEl.offsetWidth; // force reflow to restart animation
-      totalEl.classList.add('bump');
-    }
-
-    function setRooms(v) {
-      rooms = Math.max(1, isNaN(v) ? 1 : v);
-      document.getElementById('calcRoomsVal').value = rooms;
-      render();
-    }
-
-    function setFloor(v) {
-      floor = Math.max(0, isNaN(v) ? 0 : v);
-      document.getElementById('calcFloorVal').value = floor;
-      render();
-    }
-
-    document.getElementById('calcRoomsMinus').onclick = function () { setRooms(rooms - 1); };
-    document.getElementById('calcRoomsPlus').onclick  = function () { setRooms(rooms + 1); };
-    document.getElementById('calcRoomsVal').oninput   = function () { setRooms(parseInt(this.value, 10)); };
-
-    document.getElementById('calcFloorMinus').onclick = function () { setFloor(floor - 1); };
-    document.getElementById('calcFloorPlus').onclick  = function () { setFloor(floor + 1); };
-    document.getElementById('calcFloorVal').oninput   = function () { setFloor(parseInt(this.value, 10)); };
-
-    document.getElementById('calcPackingCheck').onchange = function () {
-      withPacking = this.checked;
-      document.getElementById('calcPackingLabel').classList.toggle('active', withPacking);
-      render();
+    var W = {
+      step: 1,
+      rooms: 1,
+      pickupFloor: 0, pickupElev: null,
+      destFloor: 0,   destElev: null,
+      packing: null,  unpacking: null,
+      wardrobes: 0,   beds: 0,
+      safe: null,     marble: null,
+      addrFrom: '',   addrTo: '',
+      transport: 0,   bothJerusalem: false
     };
 
-    document.getElementById('calcUnpackingCheck').onchange = function () {
-      withUnpacking = this.checked;
-      document.getElementById('calcUnpackingLabel').classList.toggle('active', withUnpacking);
-      render();
+    function fmt(n) { return '₪' + n.toLocaleString('he-IL'); }
+    function floorLabel(f) { return f === 0 ? 'קרקע' : 'קומה ' + f; }
+
+    function basePrice() {
+      if (W.rooms === 1) return 1499;
+      if (W.rooms === 2) return 1999;
+      return 1999 + (W.rooms - 2) * 500;
+    }
+
+    function floorCost(floor, hasElev) {
+      return (!hasElev && floor > 0) ? floor * 500 : 0;
+    }
+
+    function totals() {
+      var base     = basePrice();
+      var pFloor   = floorCost(W.pickupFloor, W.pickupElev === true);
+      var dFloor   = floorCost(W.destFloor,   W.destElev   === true);
+      var pack     = W.packing   ? Math.round(base * 0.7) : 0;
+      var unpack   = W.unpacking ? Math.round(base * 0.7) : 0;
+      var wardr    = W.wardrobes * 600;
+      var bedsC    = W.beds * 300;
+      var safeC    = W.safe   ? 600  : 0;
+      var marbleC  = W.marble ? 1000 : 0;
+      var trans    = W.transport;
+      var total    = base + pFloor + dFloor + pack + unpack + wardr + bedsC + safeC + marbleC + trans;
+      return { base: base, pFloor: pFloor, dFloor: dFloor, pack: pack, unpack: unpack,
+               wardr: wardr, beds: bedsC, safe: safeC, marble: marbleC, trans: trans, total: total };
+    }
+
+    // ── Stepper helper ────────────────────────────────
+    function bindStepper(minusId, plusId, valId, getVal, setVal, minV, maxV, renderVal) {
+      var valEl = document.getElementById(valId);
+      document.getElementById(minusId).onclick = function () {
+        setVal(Math.max(minV, getVal() - 1));
+        valEl.textContent = renderVal(getVal());
+      };
+      document.getElementById(plusId).onclick = function () {
+        setVal(Math.min(maxV, getVal() + 1));
+        valEl.textContent = renderVal(getVal());
+      };
+    }
+
+    // ── Choice helper ─────────────────────────────────
+    function bindChoice(yesId, noId, setValue, onAfter) {
+      function pick(val) {
+        setValue(val);
+        document.getElementById(yesId).classList.toggle('selected', val === true);
+        document.getElementById(noId).classList.toggle('selected', val === false);
+        if (onAfter) onAfter(val);
+      }
+      document.getElementById(yesId).onclick = function () { pick(true); };
+      document.getElementById(noId).onclick  = function () { pick(false); };
+    }
+
+    // ── Progress ──────────────────────────────────────
+    function updateProgress() {
+      for (var i = 1; i <= 4; i++) {
+        var ps = document.getElementById('qwPs' + i);
+        ps.classList.toggle('active',    i === W.step);
+        ps.classList.toggle('done',      i < W.step);
+        if (i < 4) {
+          document.getElementById('qwLine' + i).classList.toggle('done', i < W.step);
+        }
+      }
+    }
+
+    // ── Navigation ────────────────────────────────────
+    function updateNav() {
+      var back = document.getElementById('qwBack');
+      var next = document.getElementById('qwNext');
+      back.classList.toggle('hidden', W.step === 1);
+      next.textContent = W.step === 4 ? 'שלח בוואטסאפ' : 'המשך';
+    }
+
+    function showStep(n) {
+      for (var i = 1; i <= 4; i++) {
+        var el = document.getElementById('qwStep' + i);
+        el.classList.toggle('active', i === n);
+      }
+      W.step = n;
+      updateProgress();
+      updateNav();
+      if (n === 4) renderSummary();
+    }
+
+    // ── Validate step 1 ──────────────────────────────
+    function validateStep1() {
+      var needPElev = W.pickupFloor > 0 && W.pickupElev === null;
+      var needDElev = W.destFloor   > 0 && W.destElev   === null;
+      var err = document.getElementById('qwErr1');
+      if (needPElev || needDElev) {
+        err.style.display = 'block';
+        return false;
+      }
+      err.style.display = 'none';
+      return true;
+    }
+
+    // ── Validate step 2 ──────────────────────────────
+    function validateStep2() {
+      if (W.packing === null) W.packing = false;
+      if (W.unpacking === null) W.unpacking = false;
+      if (W.safe === null) W.safe = false;
+      if (W.marble === null) W.marble = false;
+      // auto-select "no" for choices the user skipped
+      ['qwPackN','qwUnpackN','qwSafeN','qwMarbleN'].forEach(function(id) {
+        var el = document.getElementById(id);
+        // only auto-activate if neither yes nor no is selected
+      });
+      return true;
+    }
+
+    // ── Summary ──────────────────────────────────────
+    function renderSummary() {
+      var t = totals();
+      var rows = [
+        { label: 'הובלה בסיסית (' + W.rooms + ' חד\')', val: t.base },
+        t.pFloor  ? { label: 'תוספת קומה – מוצא (קומה ' + W.pickupFloor + ')', val: t.pFloor } : null,
+        t.dFloor  ? { label: 'תוספת קומה – יעד (קומה ' + W.destFloor + ')',   val: t.dFloor } : null,
+        t.pack    ? { label: 'שירות אריזה',     val: t.pack   } : null,
+        t.unpack  ? { label: 'פריקה וסידור',    val: t.unpack } : null,
+        t.wardr   ? { label: 'ארונות (' + W.wardrobes + ')', val: t.wardr } : null,
+        t.beds    ? { label: 'מיטות (' + W.beds + ')',       val: t.beds  } : null,
+        t.safe    ? { label: 'כספת',            val: t.safe   } : null,
+        t.marble  ? { label: 'שולחן שיש',       val: t.marble } : null,
+        t.trans   ? { label: 'הובלה בין-עירונית', val: t.trans } : null,
+        t.trans === 0 && (W.addrFrom || W.addrTo) ? { label: 'הובלה בתוך ירושלים', val: 0, free: true } : null
+      ].filter(Boolean);
+
+      var html = rows.map(function(r) {
+        return '<div class="qw-bd-row">' +
+          '<span class="qw-bd-label">' + r.label + '</span>' +
+          '<span class="qw-bd-value' + (r.free ? ' qw-bd-free' : '') + '">' +
+            (r.free ? 'ללא תוספת' : fmt(r.val)) +
+          '</span>' +
+        '</div>';
+      }).join('');
+      document.getElementById('qwBreakdown').innerHTML = html;
+
+      var totalEl = document.getElementById('qwTotal');
+      totalEl.textContent = fmt(t.total);
+      totalEl.classList.remove('qw-bump');
+      void totalEl.offsetWidth;
+      totalEl.classList.add('qw-bump');
+
+      buildWa(t);
+    }
+
+    // ── WhatsApp link ─────────────────────────────────
+    function buildWa(t) {
+      var lines = [
+        'שלום אלי, אשמח לקבל הצעת מחיר להובלה:',
+        'חדרים: ' + W.rooms,
+        'קומה מוצא: ' + floorLabel(W.pickupFloor) + (W.pickupElev === true ? ' (מעלית)' : W.pickupFloor > 0 ? ' (ללא מעלית)' : ''),
+        'קומה יעד: '  + floorLabel(W.destFloor)   + (W.destElev   === true ? ' (מעלית)' : W.destFloor   > 0 ? ' (ללא מעלית)' : '')
+      ];
+      if (W.packing)      lines.push('שירות אריזה: כן');
+      if (W.unpacking)    lines.push('פריקה וסידור: כן');
+      if (W.wardrobes)    lines.push('ארונות: ' + W.wardrobes);
+      if (W.beds)         lines.push('מיטות: ' + W.beds);
+      if (W.safe)         lines.push('כספת: כן');
+      if (W.marble)       lines.push('שולחן שיש: כן');
+      if (W.addrFrom)     lines.push('מוצא: ' + W.addrFrom);
+      if (W.addrTo)       lines.push('יעד: '  + W.addrTo);
+      lines.push('הערכת מחיר: ' + fmt(t.total));
+      var msg = encodeURIComponent(lines.join('\n'));
+      document.getElementById('qwWaBtn').href = 'https://wa.me/972529014037?text=' + msg;
+    }
+
+    // ── Service price hints ───────────────────────────
+    function updateSvcHints() {
+      var b = basePrice();
+      var packEl   = document.getElementById('qwPackPrice');
+      var unpackEl = document.getElementById('qwUnpackPrice');
+      if (packEl)   packEl.textContent   = W.packing   ? fmt(Math.round(b * 0.7)) : '';
+      if (unpackEl) unpackEl.textContent = W.unpacking ? fmt(Math.round(b * 0.7)) : '';
+    }
+
+    // ── Floor elevator visibility ─────────────────────
+    function syncElevFields() {
+      document.getElementById('qwPElevF').style.display = W.pickupFloor > 0 ? '' : 'none';
+      document.getElementById('qwDElevF').style.display = W.destFloor   > 0 ? '' : 'none';
+    }
+
+    // ── Init ──────────────────────────────────────────
+    // Step 1 – rooms
+    var roomsHint = document.getElementById('qwRoomsHint');
+    bindStepper('qwRoomsM','qwRoomsP','qwRoomsV',
+      function(){ return W.rooms; },
+      function(v){ W.rooms = v; roomsHint.textContent = fmt(basePrice()); updateSvcHints(); },
+      1, 10, String
+    );
+
+    // Step 1 – pickup floor
+    bindStepper('qwPFlM','qwPFlP','qwPFlV',
+      function(){ return W.pickupFloor; },
+      function(v){ W.pickupFloor = v; if (v === 0) W.pickupElev = null; syncElevFields(); },
+      0, 20, floorLabel
+    );
+
+    // Step 1 – dest floor
+    bindStepper('qwDFlM','qwDFlP','qwDFlV',
+      function(){ return W.destFloor; },
+      function(v){ W.destFloor = v; if (v === 0) W.destElev = null; syncElevFields(); },
+      0, 20, floorLabel
+    );
+
+    // Step 1 – elevator choices
+    bindChoice('qwPEY','qwPEN', function(v){ W.pickupElev = v; });
+    bindChoice('qwDEY','qwDEN', function(v){ W.destElev   = v; });
+
+    // Step 2 – packing / unpacking
+    bindChoice('qwPackY','qwPackN', function(v){ W.packing   = v; updateSvcHints(); });
+    bindChoice('qwUnpackY','qwUnpackN', function(v){ W.unpacking = v; updateSvcHints(); });
+
+    // Step 2 – wardrobes
+    bindStepper('qwWardrM','qwWardrP','qwWardrV',
+      function(){ return W.wardrobes; },
+      function(v){ W.wardrobes = v; },
+      0, 10, String
+    );
+
+    // Step 2 – beds
+    bindStepper('qwBedsM','qwBedsP','qwBedsV',
+      function(){ return W.beds; },
+      function(v){ W.beds = v; },
+      0, 10, String
+    );
+
+    // Step 2 – safe / marble
+    bindChoice('qwSafeY','qwSafeN',   function(v){ W.safe   = v; });
+    bindChoice('qwMarbleY','qwMarbleN', function(v){ W.marble = v; });
+
+    // Navigation
+    document.getElementById('qwNext').onclick = function () {
+      if (W.step === 1 && !validateStep1()) return;
+      if (W.step === 2) validateStep2();
+      if (W.step < 4) { showStep(W.step + 1); }
+      else {
+        // Step 4 – WhatsApp
+        document.getElementById('qwWaBtn').click();
+      }
     };
 
-    render();
+    document.getElementById('qwBack').onclick = function () {
+      if (W.step > 1) showStep(W.step - 1);
+    };
+
+    // Init display
+    updateProgress();
+    updateNav();
+    document.getElementById('qwErr1').style.display = 'none';
+    syncElevFields();
+    roomsHint.textContent = fmt(basePrice());
+
+    window.__quoteWizardState = W;
   })();
+
+  // ── Google Maps callback (Places + Distance Matrix) ────
+  window.initQuoteWizard = function () {
+    var fromInput = document.getElementById('qwAddrFrom');
+    var toInput   = document.getElementById('qwAddrTo');
+    if (!fromInput || !toInput || !window.google) return;
+
+    var opts = { componentRestrictions: { country: 'il' }, fields: ['address_components','formatted_address','geometry'] };
+    var acFrom = new google.maps.places.Autocomplete(fromInput, opts);
+    var acTo   = new google.maps.places.Autocomplete(toInput,   opts);
+    var placeFrom = null, placeTo = null;
+
+    function isJerusalem(place) {
+      if (!place || !place.address_components) return false;
+      return place.address_components.some(function(c) {
+        return c.long_name === 'Jerusalem' || c.long_name === 'ירושלים';
+      });
+    }
+
+    function calcTransport() {
+      if (!placeFrom || !placeTo) return;
+      var W_ref = window.__quoteWizardState;
+      var bothJ = isJerusalem(placeFrom) && isJerusalem(placeTo);
+      if (W_ref) { W_ref.bothJerusalem = bothJ; }
+      var badge = document.getElementById('qwTransBadge');
+      if (bothJ) {
+        if (W_ref) W_ref.transport = 0;
+        badge.textContent = 'הובלה בתוך ירושלים – ללא תוספת נסיעה';
+        badge.className = 'qw-transport-badge';
+        return;
+      }
+      var svc = new google.maps.DistanceMatrixService();
+      svc.getDistanceMatrix({
+        origins: [placeFrom.geometry.location],
+        destinations: [placeTo.geometry.location],
+        travelMode: google.maps.TravelMode.DRIVING
+      }, function(res, status) {
+        if (status !== 'OK') return;
+        var km = res.rows[0].elements[0].distance.value / 1000;
+        var cost = Math.round(km) * 15;
+        if (W_ref) W_ref.transport = cost;
+        badge.textContent = 'מרחק: ' + Math.round(km) + ' ק"מ · תוספת נסיעה: ' + (cost > 0 ? '₪' + cost.toLocaleString('he-IL') : 'ללא');
+        badge.className = 'qw-transport-badge';
+      });
+    }
+
+    acFrom.addListener('place_changed', function() {
+      placeFrom = acFrom.getPlace();
+      if (placeFrom && placeFrom.formatted_address) {
+        var s = window.__quoteWizardState;
+        if (s) s.addrFrom = placeFrom.formatted_address;
+      }
+      calcTransport();
+    });
+    acTo.addListener('place_changed', function() {
+      placeTo = acTo.getPlace();
+      if (placeTo && placeTo.formatted_address) {
+        var s = window.__quoteWizardState;
+        if (s) s.addrTo = placeTo.formatted_address;
+      }
+      calcTransport();
+    });
+  };
 
   // ─── BACKGROUND VIDEO SCROLL ANIMATION ──────────────
   (function () {
