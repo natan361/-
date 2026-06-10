@@ -1735,6 +1735,53 @@
       margin-top: 14px;
     }
 
+    /* — Address autocomplete dropdown — */
+    .qw-ac-wrap { position: relative; }
+
+    .qw-ac-list {
+      position: absolute;
+      top: calc(100% + 4px);
+      inset-inline-start: 0;
+      inset-inline-end: 0;
+      background: white;
+      border: 1.5px solid var(--gray-light);
+      border-radius: 12px;
+      box-shadow: 0 8px 28px rgba(13,37,83,0.13);
+      z-index: 200;
+      overflow: hidden;
+      max-height: 230px;
+      overflow-y: auto;
+    }
+
+    .qw-ac-list.hidden { display: none; }
+
+    .qw-ac-item {
+      padding: 11px 16px;
+      font-size: 0.86rem;
+      color: var(--text);
+      cursor: pointer;
+      border-bottom: 1px solid var(--gray-light);
+      text-align: right;
+      direction: rtl;
+      line-height: 1.4;
+      transition: background 0.12s;
+    }
+
+    .qw-ac-item:last-child { border-bottom: none; }
+
+    .qw-ac-item:hover,
+    .qw-ac-item.qw-ac-focused {
+      background: rgba(242,101,34,0.07);
+      color: var(--navy);
+    }
+
+    .qw-ac-status {
+      padding: 11px 16px;
+      font-size: 0.82rem;
+      color: var(--gray);
+      text-align: center;
+    }
+
     /* — Summary (step 4) — */
     .qw-breakdown {
       border: 1.5px solid var(--gray-light);
@@ -2039,7 +2086,6 @@
     @media (max-width: 768px) { .footer-legal { gap: 6px 14px; } }
 
   </style>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-REPLACE_WITH_YOUR_KEY&libraries=places&loading=async" async defer></script>
 </head>
 <body>
 <a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
@@ -2419,12 +2465,18 @@
 
           <div class="qw-field">
             <span class="qw-field-label">כתובת הנכס הנוכחי</span>
-            <input type="text" id="qwAddrFrom" class="qw-addr-input" placeholder="הכניסו כתובת מוצא..." autocomplete="off" />
+            <div class="qw-ac-wrap">
+              <input type="text" id="qwAddrFrom" class="qw-addr-input" placeholder="הכניסו כתובת מוצא..." autocomplete="off" />
+              <div class="qw-ac-list hidden" id="qwAcFrom" role="listbox"></div>
+            </div>
           </div>
 
           <div class="qw-field">
             <span class="qw-field-label">כתובת הנכס החדש</span>
-            <input type="text" id="qwAddrTo" class="qw-addr-input" placeholder="הכניסו כתובת יעד..." autocomplete="off" />
+            <div class="qw-ac-wrap">
+              <input type="text" id="qwAddrTo" class="qw-addr-input" placeholder="הכניסו כתובת יעד..." autocomplete="off" />
+              <div class="qw-ac-list hidden" id="qwAcTo" role="listbox"></div>
+            </div>
           </div>
 
           <div id="qwTransBadge" class="qw-transport-badge hidden"></div>
@@ -3014,7 +3066,7 @@
       W.step = n;
       updateProgress();
       updateNav();
-      if (n === 3 && window.google && window.initQuoteWizardPlaces) {
+      if (n === 3 && window.initQuoteWizardPlaces) {
         window.initQuoteWizardPlaces();
       }
       if (n === 4) renderSummary();
@@ -3193,71 +3245,208 @@
     window.__quoteWizardState = W;
   })();
 
-  // ── Google Maps Places – lazy init on step 3 ────────
+  // ── Step 3 – Nominatim autocomplete + OSRM distance ─
   window._qwPlacesReady = false;
-  window.initQuoteWizardPlaces = function () {
-    if (window._qwPlacesReady) return;
-    window._qwPlacesReady = true;
-    var fromInput = document.getElementById('qwAddrFrom');
-    var toInput   = document.getElementById('qwAddrTo');
-    if (!fromInput || !toInput || !window.google) return;
+  window.initQuoteWizardPlaces = (function () {
 
-    var opts = { componentRestrictions: { country: 'il' }, fields: ['address_components','formatted_address','geometry'] };
-    var acFrom = new google.maps.places.Autocomplete(fromInput, opts);
-    var acTo   = new google.maps.places.Autocomplete(toInput,   opts);
-    var placeFrom = null, placeTo = null;
+    // ── Address normalisation ───────────────────────────
+    var _ABBR = [
+      [/\bת[״"']?א\b/g,  'תל אביב'],
+      [/\bתא\b/g,         'תל אביב'],
+      [/\bירוש[׳']\b/g,  'ירושלים'],
+      [/\bירוש\b/g,       'ירושלים'],
+      [/\bב[״"']ש\b/g,   'באר שבע'],
+      [/\bר[״"']ג\b/g,   'רמת גן'],
+      [/\bפ[״"']ת\b/g,   'פתח תקווה'],
+      [/\bst\b/gi,        'street'],
+      [/\bave\b/gi,       'avenue'],
+    ];
 
-    function isJerusalem(place) {
-      if (!place || !place.address_components) return false;
-      return place.address_components.some(function(c) {
-        return c.long_name === 'Jerusalem' || c.long_name === 'ירושלים';
+    function _norm(s) {
+      s = s.trim().toLowerCase();
+      _ABBR.forEach(function (p) { s = s.replace(p[0], p[1]); });
+      return s.replace(/[.,;|"'״׳]/g, '').replace(/\s+/g, ' ').trim();
+    }
+
+    // ── In-memory geocode cache (24 h TTL) ─────────────
+    var _cache = new Map();
+    var _TTL   = 864e5;
+
+    function _cacheGet(key) {
+      var e = _cache.get(key);
+      if (!e) return null;
+      if (Date.now() - e.ts > _TTL) { _cache.delete(key); return null; }
+      return { lat: e.lat, lon: e.lon };
+    }
+
+    function _cacheSet(key, lat, lon) {
+      _cache.set(key, { lat: lat, lon: lon, ts: Date.now() });
+    }
+
+    // ── Fetch helper (8 s timeout) ──────────────────────
+    function _fetch(url, headers) {
+      var ctrl = new AbortController();
+      var t = setTimeout(function () { ctrl.abort(); }, 8000);
+      return fetch(url, { signal: ctrl.signal, headers: headers || {} })
+        .finally(function () { clearTimeout(t); });
+    }
+
+    // ── Nominatim: search top 5 ─────────────────────────
+    function _search(query, cb) {
+      var url = 'https://nominatim.openstreetmap.org/search'
+        + '?format=json&limit=5&countrycodes=il'
+        + '&q=' + encodeURIComponent(query);
+      _fetch(url, { 'Accept-Language': 'he,en', 'User-Agent': 'EliMovers/1.0' })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!Array.isArray(data) || !data.length) { cb([]); return; }
+          cb(data.map(function (d) {
+            return { label: d.display_name, lat: parseFloat(d.lat), lon: parseFloat(d.lon) };
+          }));
+        })
+        .catch(function () { cb([]); });
+    }
+
+    // ── Nominatim: geocode single (cache + fallback) ────
+    function _geocode(query, cb) {
+      var key = _norm(query);
+      if (!key) { cb({ success: false, error: 'empty address' }); return; }
+      var hit = _cacheGet(key);
+      if (hit) { cb({ success: true, lat: hit.lat, lon: hit.lon, cached: true }); return; }
+      _search(key, function (results) {
+        if (!results.length) {
+          cb({ success: false, error: 'no results for: ' + query });
+          return;
+        }
+        var r = results[0];
+        _cacheSet(key, r.lat, r.lon);
+        cb({ success: true, lat: r.lat, lon: r.lon, cached: false });
       });
     }
 
-    function calcTransport() {
-      if (!placeFrom || !placeTo) return;
-      var W_ref = window.__quoteWizardState;
-      var bothJ = isJerusalem(placeFrom) && isJerusalem(placeTo);
-      if (W_ref) { W_ref.bothJerusalem = bothJ; }
+    // ── OSRM driving distance ───────────────────────────
+    function _distance(from, to, cb) {
+      var url = 'https://router.project-osrm.org/route/v1/driving/'
+        + from.lon + ',' + from.lat + ';'
+        + to.lon  + ',' + to.lat
+        + '?overview=false';
+      _fetch(url)
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d.code !== 'Ok' || !d.routes || !d.routes.length) {
+            cb({ success: false, error: 'osrm no route' });
+            return;
+          }
+          var km = Math.round((d.routes[0].distance / 1000) * 100) / 100;
+          cb({ success: true, distance_km: km });
+        })
+        .catch(function (e) { cb({ success: false, error: e.message }); });
+    }
+
+    // ── Debounce ────────────────────────────────────────
+    function _debounce(fn, ms) {
+      var t;
+      return function () {
+        var a = arguments;
+        clearTimeout(t);
+        t = setTimeout(function () { fn.apply(null, a); }, ms);
+      };
+    }
+
+    // ── Badge + W state update ─────────────────────────
+    function _applyDistance(coordFrom, coordTo) {
+      var W     = window.__quoteWizardState;
       var badge = document.getElementById('qwTransBadge');
-      if (bothJ) {
-        if (W_ref) W_ref.transport = 0;
-        badge.textContent = 'הובלה בתוך ירושלים – ללא תוספת נסיעה';
-        badge.className = 'qw-transport-badge';
-        return;
-      }
-      var svc = new google.maps.DistanceMatrixService();
-      svc.getDistanceMatrix({
-        origins: [placeFrom.geometry.location],
-        destinations: [placeTo.geometry.location],
-        travelMode: google.maps.TravelMode.DRIVING
-      }, function(res, status) {
-        if (status !== 'OK') return;
-        var km = res.rows[0].elements[0].distance.value / 1000;
+      badge.className   = 'qw-transport-badge';
+      badge.textContent = '...מחשב מרחק';
+
+      _distance(coordFrom, coordTo, function (res) {
+        if (!res.success) {
+          badge.textContent = 'לא ניתן לחשב מרחק – יחושב בשיחת האישור';
+          if (W) { W.transport = 0; W.distance_km = 0; }
+          return;
+        }
+        var km   = res.distance_km;
         var cost = Math.round(km) * 15;
-        if (W_ref) W_ref.transport = cost;
-        badge.textContent = 'מרחק: ' + Math.round(km) + ' ק"מ · תוספת נסיעה: ' + (cost > 0 ? '₪' + cost.toLocaleString('he-IL') : 'ללא');
-        badge.className = 'qw-transport-badge';
+        if (W) { W.transport = cost; W.distance_km = km; }
+        badge.textContent = 'מרחק: ' + km + ' ק"מ · תוספת נסיעה: '
+          + (cost > 0 ? '₪' + cost.toLocaleString('he-IL') : 'ללא (תוך עיר)');
       });
     }
 
-    acFrom.addListener('place_changed', function() {
-      placeFrom = acFrom.getPlace();
-      if (placeFrom && placeFrom.formatted_address) {
-        var s = window.__quoteWizardState;
-        if (s) s.addrFrom = placeFrom.formatted_address;
-      }
-      calcTransport();
-    });
-    acTo.addListener('place_changed', function() {
-      placeTo = acTo.getPlace();
-      if (placeTo && placeTo.formatted_address) {
-        var s = window.__quoteWizardState;
-        if (s) s.addrTo = placeTo.formatted_address;
-      }
-      calcTransport();
-    });
-  };
+    // ── Dropdown renderer ──────────────────────────────
+    function _renderList(list, items, onPick) {
+      list.innerHTML = '';
+      if (!items.length) { list.className = 'qw-ac-list hidden'; return; }
+      items.forEach(function (item) {
+        var el = document.createElement('div');
+        el.className   = 'qw-ac-item';
+        el.textContent = item.label;
+        el.setAttribute('role', 'option');
+        el.addEventListener('mousedown', function (e) {
+          e.preventDefault();
+          onPick(item);
+          list.className = 'qw-ac-list hidden';
+        });
+        list.appendChild(el);
+      });
+      list.className = 'qw-ac-list';
+    }
+
+    // ── Wire one address input ─────────────────────────
+    function _wire(input, list, key, otherKey) {
+      var coordsStore = {};   // { from: {lat,lon}, to: {lat,lon} }
+
+      var _doSearch = _debounce(function (val) {
+        var q = _norm(val);
+        if (!q || q.length < 3) { list.className = 'qw-ac-list hidden'; return; }
+
+        list.innerHTML = '<div class="qw-ac-status">מחפש...</div>';
+        list.className = 'qw-ac-list';
+
+        _search(q, function (results) {
+          _renderList(list, results, function (picked) {
+            input.value = picked.label;
+            var W = window.__quoteWizardState;
+            if (W) W[key === 'from' ? 'addrFrom' : 'addrTo'] = picked.label;
+
+            var lat = picked.lat, lon = picked.lon;
+            _cacheSet(_norm(picked.label), lat, lon);
+            window._qwCoords = window._qwCoords || {};
+            window._qwCoords[key] = { lat: lat, lon: lon };
+
+            var other = window._qwCoords && window._qwCoords[otherKey];
+            if (other) _applyDistance(window._qwCoords[key], other);
+          });
+        });
+      }, 400);
+
+      input.addEventListener('input', function () { _doSearch(input.value); });
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') list.className = 'qw-ac-list hidden';
+      });
+
+      input.addEventListener('blur', function () {
+        setTimeout(function () { list.className = 'qw-ac-list hidden'; }, 160);
+      });
+    }
+
+    // ── Exported init (called once when user reaches step 3) ─
+    return function init() {
+      if (window._qwPlacesReady) return;
+      window._qwPlacesReady = true;
+      window._qwCoords = {};
+
+      var fromInput = document.getElementById('qwAddrFrom');
+      var toInput   = document.getElementById('qwAddrTo');
+      var fromList  = document.getElementById('qwAcFrom');
+      var toList    = document.getElementById('qwAcTo');
+
+      _wire(fromInput, fromList, 'from', 'to');
+      _wire(toInput,   toList,   'to',   'from');
+    };
+  }());
 
   // ─── BACKGROUND VIDEO SCROLL ANIMATION ──────────────
   (function () {
