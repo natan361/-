@@ -1,0 +1,1187 @@
+[
+  {
+    "id": "TC001",
+    "title": "Switch from Hebrew to English and keep layout direction correct",
+    "description": "This verifies that a Hebrew visitor can switch the site to English and see the page update to the English LTR experience.",
+    "category": "Language Switcher",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Click the language selector in the header"
+      },
+      {
+        "type": "action",
+        "description": "Select English"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page language updates to English"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page direction updates to left-to-right"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Use the moving cost calculator to estimate a move",
+    "description": "A visitor can adjust the moving cost calculator and see the estimate update immediately for a realistic move scenario.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Increase the room count"
+      },
+      {
+        "type": "action",
+        "description": "Increase the floor number"
+      },
+      {
+        "type": "action",
+        "description": "Enable packing service"
+      },
+      {
+        "type": "action",
+        "description": "Enable unpacking service"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the estimated total updates"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated estimate is announced for assistive technology"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Moving calculator shows a live estimate as options change",
+    "description": "This verifies that a visitor can use the moving cost calculator to enter move details and see the estimate update live.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the moving cost calculator section"
+      },
+      {
+        "type": "action",
+        "description": "Fill in a valid moving size or rooms value"
+      },
+      {
+        "type": "action",
+        "description": "Fill in a valid floor value"
+      },
+      {
+        "type": "action",
+        "description": "Select packing and unpacking options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an estimated total is displayed and updates as the calculator inputs change"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Request a quote through the moving cost calculator",
+    "description": "This verifies that a visitor can complete the calculator and see the estimate update as options change.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the calculator section"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the moving inputs with valid values"
+      },
+      {
+        "type": "action",
+        "description": "Select packing and unpacking options as needed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a live total is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the estimate breakdown updates to reflect the selected options"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "View the landing page in Hebrew",
+    "description": "A Hebrew-speaking visitor can open the main landing page and see the Hebrew RTL experience with the core content visible.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the Hebrew landing page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is laid out in right-to-left direction"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Switching languages updates the landing page correctly",
+    "description": "This verifies that a visitor can switch between Hebrew, English, and French and see the page language, URL, and reading direction update appropriately.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page is shown in Hebrew with right-to-left reading direction"
+      },
+      {
+        "type": "action",
+        "description": "Click the language switcher option for English"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is shown in English with left-to-right reading direction and the URL reflects English"
+      },
+      {
+        "type": "action",
+        "description": "Click the language switcher option for French"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is shown in French with left-to-right reading direction and the URL reflects French"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Use the site in Hebrew with RTL rendering",
+    "description": "This verifies that the Hebrew landing page loads as a complete RTL experience for Hebrew-speaking visitors.",
+    "category": "Language Switcher",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page language is Hebrew"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page direction is right-to-left"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Navigate the landing page with the keyboard only",
+    "description": "This verifies that a keyboard-only visitor can move through interactive content and activate a contact action without using a mouse.",
+    "category": "Keyboard Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab repeatedly to move through interactive elements"
+      },
+      {
+        "type": "action",
+        "description": "Activate a contact action with the keyboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a contact action is opened or initiated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify keyboard focus remains usable on the page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Use only the keyboard to reach navigation and contact",
+    "description": "A keyboard-only user can skip to the main content, move through the page, and activate a contact option without using the mouse.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab to move focus to the skip link"
+      },
+      {
+        "type": "action",
+        "description": "Activate the skip link"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab to move through the main page controls"
+      },
+      {
+        "type": "action",
+        "description": "Activate the WhatsApp contact action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify focus moves to the main content"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a contact action is activated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Keyboard users can skip to the main content and reach contact actions",
+    "description": "This verifies that a keyboard-only visitor can use the skip link, move through the landing page, and activate a contact action without using a mouse.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab to focus the skip-to-content control"
+      },
+      {
+        "type": "action",
+        "description": "Activate the skip-to-content control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify focus moves to the main content area"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab until a contact action is focused"
+      },
+      {
+        "type": "action",
+        "description": "Activate the focused contact action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a WhatsApp or phone contact action is initiated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Reach WhatsApp or call from the landing page",
+    "description": "This verifies that a visitor can quickly contact the company using the prominent phone or WhatsApp actions.",
+    "category": "Contact CTAs",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Activate the WhatsApp or phone contact action from the hero area"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a contact action is initiated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the contact option is available from the landing page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Switch from Hebrew to English",
+    "description": "A visitor can switch the site language from Hebrew to English and see the English LTR page with the URL updated accordingly.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Click the English language switcher"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the English landing page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is laid out in left-to-right direction"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Mobile navigation opens and closes on small screens",
+    "description": "This verifies that a mobile visitor can open the hamburger menu, use it to navigate, and close it again on a small viewport.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Set the viewport to a mobile width"
+      },
+      {
+        "type": "action",
+        "description": "Open the mobile navigation menu"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the mobile navigation overlay is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Select a navigation item for a main section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page scrolls to the selected section and the mobile menu is closed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Jump to the main content from the skip link",
+    "description": "This verifies that keyboard users can bypass the header and move directly to the main content area.",
+    "category": "Skip to Content Link",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the main content area is reached"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the skip link is no longer the active focus target"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Open the mobile navigation and jump to a section",
+    "description": "This verifies that a mobile visitor can open the hamburger menu and navigate to a page section from the overlay.",
+    "category": "Mobile Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Resize the viewport to a mobile width"
+      },
+      {
+        "type": "action",
+        "description": "Open the hamburger menu"
+      },
+      {
+        "type": "action",
+        "description": "Click a navigation link to a section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the menu closes after navigation"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected section is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Open the mobile navigation menu",
+    "description": "A mobile visitor can open the hamburger menu and access the full-screen navigation overlay on a small viewport.",
+    "category": "Mobile Navigation (Hamburger Menu)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Resize the viewport to a mobile width"
+      },
+      {
+        "type": "action",
+        "description": "Click the hamburger button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the mobile navigation overlay is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the menu is marked as expanded"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "WhatsApp contact action is available from the landing page",
+    "description": "This verifies that a visitor can use the WhatsApp contact button from the landing page to start a chat action.",
+    "category": "WhatsApp & Phone CTAs",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Click the floating WhatsApp contact button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a WhatsApp contact action is initiated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC018",
+    "title": "Request a quote from the calculator via WhatsApp",
+    "description": "A visitor can move from the calculator to the WhatsApp contact action to request an exact quote.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Update the calculator estimate"
+      },
+      {
+        "type": "action",
+        "description": "Click the WhatsApp contact action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the WhatsApp contact action opens"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the hardcoded contact destination is used"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC019",
+    "title": "Call now contact action is available from the hero section",
+    "description": "This verifies that a visitor can use the hero call button to initiate a phone call from the landing page.",
+    "category": "WhatsApp & Phone CTAs",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Click the hero call action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a phone call action is initiated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC020",
+    "title": "Adjust moving options and see the estimate update",
+    "description": "This verifies that changing rooms, floor, and packing options updates the moving estimate without leaving the page.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the calculator section"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the moving inputs with valid values"
+      },
+      {
+        "type": "action",
+        "description": "Change one or more calculator options"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the estimate changes after the inputs are updated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated breakdown remains visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC021",
+    "title": "Switch from English to French",
+    "description": "A visitor can switch the site language from English to French and see the French LTR page with the URL updated accordingly.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Click the French language switcher"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the French landing page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is laid out in left-to-right direction"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC022",
+    "title": "Contact actions remain available in the contact section",
+    "description": "This verifies that a visitor can reach the contact section and use the available contact actions there.",
+    "category": "WhatsApp & Phone CTAs",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the contact section"
+      },
+      {
+        "type": "action",
+        "description": "Click the WhatsApp contact action in the contact section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a WhatsApp contact action is initiated"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC023",
+    "title": "Navigate to a section from the mobile menu",
+    "description": "A mobile visitor can open the hamburger menu, choose a section link, and land on the target section with the menu closed.",
+    "category": "Mobile Navigation (Hamburger Menu)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Resize the viewport to a mobile width"
+      },
+      {
+        "type": "action",
+        "description": "Click the hamburger button"
+      },
+      {
+        "type": "action",
+        "description": "Click the Services navigation link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the Services section is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the mobile navigation overlay is closed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC024",
+    "title": "Calculator options change the price breakdown",
+    "description": "This verifies that a visitor can combine stepper and checkbox options in the calculator and see the price breakdown reflect the selected services.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the moving cost calculator section"
+      },
+      {
+        "type": "action",
+        "description": "Set a smaller room count"
+      },
+      {
+        "type": "action",
+        "description": "Increase the room count using the stepper controls"
+      },
+      {
+        "type": "action",
+        "description": "Enable a packing option"
+      },
+      {
+        "type": "action",
+        "description": "Enable an unpacking option"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the price breakdown reflects the selected room and service options"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC025",
+    "title": "Keep the room count at the minimum",
+    "description": "A visitor cannot decrease the room count below the minimum value and the estimate remains valid.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Set the room count to the minimum value"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to decrease the room count"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the room count remains at the minimum value"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the estimate remains valid"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC026",
+    "title": "Open a legal page from the footer and return to the site",
+    "description": "This verifies that visitors can reach a legal page and use the provided back-to-site navigation.",
+    "category": "Legal Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Open the privacy page from the footer legal links"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the legal page content is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Click the link back to the main site"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page is displayed again"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC027",
+    "title": "Open the accessibility statement from the footer",
+    "description": "A visitor can reach the accessibility statement from the landing page footer and view the page content.",
+    "category": "Footer Legal Links",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Click the accessibility statement link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the accessibility statement content is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC028",
+    "title": "Update the estimate when packing options change",
+    "description": "A visitor can toggle packing-related options and see the price breakdown recalculate in real time.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Enable packing service"
+      },
+      {
+        "type": "action",
+        "description": "Enable unpacking service"
+      },
+      {
+        "type": "action",
+        "description": "Disable packing service"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the price breakdown updates"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the total estimate changes with the selected options"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC029",
+    "title": "Accessibility statement page loads with contact options",
+    "description": "This verifies that a visitor can open the accessibility statement page, read the content, and find the contact options provided there.",
+    "category": "Accessibility Statement Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /accessibility"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the accessibility statement page is displayed with compliance information"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify contact options are available on the page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC030",
+    "title": "Reach the footer legal links from mobile",
+    "description": "A mobile visitor can scroll through the landing page and open the legal and accessibility pages from the footer.",
+    "category": "Mobile Navigation (Hamburger Menu)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Resize the viewport to a mobile width"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Click the accessibility link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the accessibility statement page is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Navigate back to /he"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Click the privacy link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the privacy policy page is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC031",
+    "title": "Privacy page provides a way back to the main site",
+    "description": "This verifies that a visitor can open the privacy policy and return to the landing page using the provided navigation.",
+    "category": "Legal Pages (Privacy, Terms, Cookies)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /privacy"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the privacy policy page is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Click the back-to-site link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC032",
+    "title": "Return to the main site from a legal page",
+    "description": "A visitor can move from a legal page back to the main landing page using the provided link.",
+    "category": "Footer Legal Links",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /privacy"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to return to the main site"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC033",
+    "title": "Keep the floor count from going below zero",
+    "description": "A visitor cannot reduce the floor number below zero and the calculator continues to show a valid estimate.",
+    "category": "Moving Cost Calculator",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Set the floor number to zero"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to decrease the floor number"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the floor number remains at zero"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no negative floor charge is shown"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC034",
+    "title": "Accessibility page skip link jumps to the main content",
+    "description": "This verifies that a keyboard user can use the skip link on the accessibility page to move directly to the main content.",
+    "category": "Accessibility Statement Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /accessibility"
+      },
+      {
+        "type": "action",
+        "description": "Press Tab to focus the skip-to-content control"
+      },
+      {
+        "type": "action",
+        "description": "Activate the skip-to-content control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify focus moves to the main content area on the accessibility page"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC035",
+    "title": "Review the accessibility statement page",
+    "description": "A visitor can open the accessibility statement directly and read the page content before returning to the main site.",
+    "category": "Mobile Navigation (Hamburger Menu)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /accessibility"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the accessibility statement page is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Click the link back to the main landing page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the Hebrew landing page is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC036",
+    "title": "Open the privacy policy from the footer",
+    "description": "A visitor can reach the privacy policy from the landing page footer and view the page content.",
+    "category": "Footer Legal Links",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Click the privacy policy link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the privacy policy content is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC037",
+    "title": "Open the privacy policy page from the site",
+    "description": "A visitor can open a legal page from the footer and see that it loads as a standalone policy page.",
+    "category": "Mobile Navigation (Hamburger Menu)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Click the privacy link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the privacy policy page is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the policy content is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC038",
+    "title": "Open the terms of use from the footer",
+    "description": "A visitor can reach the terms of use from the landing page footer and view the page content.",
+    "category": "Footer Legal Links",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Click the terms of use link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the terms of use content is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC039",
+    "title": "Legal pages cross-link to each other",
+    "description": "This verifies that a visitor can move between the terms and cookie policy pages using the provided cross-links.",
+    "category": "Legal Pages (Privacy, Terms, Cookies)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /terms"
+      },
+      {
+        "type": "action",
+        "description": "Click the footer link to the cookie policy page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the cookie policy page is displayed"
+      },
+      {
+        "type": "action",
+        "description": "Click the link back to the terms page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the terms of use page is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC040",
+    "title": "Open the cookie policy from the footer",
+    "description": "A visitor can reach the cookie policy from the landing page footer and view the page content.",
+    "category": "Footer Legal Links",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /he"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the footer"
+      },
+      {
+        "type": "action",
+        "description": "Click the cookie policy link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the cookie policy content is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC041",
+    "title": "Keep the current language when an unsupported language is selected",
+    "description": "This verifies that selecting an unsupported language does not break the current page language or layout.",
+    "category": "Language Switcher",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /en"
+      },
+      {
+        "type": "action",
+        "description": "Click the language selector in the header"
+      },
+      {
+        "type": "action",
+        "description": "Select an unsupported language option if shown"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page remains in English"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page direction remains left-to-right"
+      }
+    ],
+    "priority": "Low"
+  }
+]

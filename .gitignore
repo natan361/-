@@ -1,0 +1,7 @@
+﻿node_modules/
+.env
+*.log
+testsprite_tests/tmp/
+*company.asset*/
+*.mp4
+cloude.md.md

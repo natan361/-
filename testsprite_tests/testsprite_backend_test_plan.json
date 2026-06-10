@@ -1,0 +1,17 @@
+[
+  {
+    "id": "TC001",
+    "title": "getlocaleshejsonreturnshebrewtranslations",
+    "description": "Verify that a GET request to /locales/he.json returns the correct Hebrew translations for the site language switcher."
+  },
+  {
+    "id": "TC002",
+    "title": "getlocalesenjsonreturnsenglishtranslations",
+    "description": "Verify that a GET request to /locales/en.json returns the correct English translations for the site language switcher."
+  },
+  {
+    "id": "TC003",
+    "title": "getlocalesfrjsonreturnsfrenchtranslations",
+    "description": "Verify that a GET request to /locales/fr.json returns the correct French translations for the site language switcher."
+  }
+]

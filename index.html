@@ -1,0 +1,2864 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>אלי הובלות – מחיר קבוע ללא הפתעות</title>
+  <meta name="description" content="אלי הובלות – שירות הובלות מקצועי בירושלים, תל אביב, מודיעין ומרכז הארץ. מחיר קבוע, שקיפות מלאה, ללא הפתעות." />
+
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/css/flag-icons.min.css" />
+
+  <link rel="alternate" hreflang="he" href="/he" />
+  <link rel="alternate" hreflang="en" href="/en" />
+  <link rel="alternate" hreflang="fr" href="/fr" />
+  <link rel="alternate" hreflang="x-default" href="/he" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0d2553;
+      --navy-mid:   #163272;
+      --navy-light: #1e4096;
+      --orange:     #f26522;
+      --orange-dark:#d9540e;
+      --orange-light:#ff8c42;
+      --white:      #ffffff;
+      --off-white:  #f7f8fc;
+      --gray-light: #eef0f6;
+      --gray:       #626880;
+      --text:       #1a1f36;
+      --text-soft:  #4a5168;
+    }
+
+    html { overflow-x: hidden; }
+    body { overflow-x: hidden; }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      color: var(--text);
+      background: transparent;
+      direction: rtl;
+      text-align: right;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── BACKGROUND CANVAS ─────────────────────────────── */
+    #bgCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      display: block;
+      background: #080e1d;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0; right: 0; left: 0;
+      z-index: 1000;
+      background: rgba(13, 37, 83, 0.97);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 2px solid rgba(242,101,34,0.35);
+      padding: 0 5%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo {
+      height: 52px;
+      width: 52px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: white;
+      padding: 2px;
+    }
+
+    .nav-brand-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-brand-name span {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--orange-light);
+      letter-spacing: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--orange-light); }
+
+    .nav-cta {
+      background: var(--orange);
+      color: var(--white) !important;
+      padding: 9px 22px;
+      border-radius: 6px;
+      font-weight: 700 !important;
+      font-size: 0.9rem !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-cta:hover { background: var(--orange-dark) !important; color: var(--white) !important; }
+
+    .nav-phone-quick {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--white);
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .nav-phone-quick:hover { color: var(--orange-light); }
+
+    .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+    .hamburger span { display: block; width: 25px; height: 2px; background: white; border-radius: 2px; transition: 0.3s; }
+    .nav-tab-icon { display: none; }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      min-height: calc(var(--real-vh, 1vh) * 100);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 72px;
+    }
+
+    /* dark gradient at the bottom so content below is readable */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.95));
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 80px 5% 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    /* backdrop behind hero text so it's readable over any video frame */
+    .hero-text-wrap {
+      background: rgba(13, 37, 83, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 44px 48px;
+      width: 100%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(242,101,34,0.18);
+      border: 1px solid rgba(242,101,34,0.4);
+      color: var(--orange-light);
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-badge::before { content: '✓'; font-weight: 900; }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 36px;
+      font-weight: 400;
+      max-width: 460px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 15px 30px;
+      border-radius: 8px;
+      border: none;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(242,101,34,0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(242,101,34,0.45);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--white);
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.07);
+    }
+
+    .hero-trust {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.88rem;
+    }
+
+    .hero-trust-item .check {
+      width: 18px; height: 18px;
+      background: rgba(242,101,34,0.25);
+      border: 1.5px solid var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-logo-wrap { position: relative; }
+
+    .hero-logo-circle {
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-logo-circle::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px dashed rgba(242,101,34,0.3);
+    }
+
+    .hero-logo-img {
+      width: 240px;
+      height: 240px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 32px rgba(0,0,0,0.4));
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* ─── STATS BAR ──────────────────────────────────────── */
+    .stats-bar {
+      background: rgba(247,248,252,0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(238,240,246,0.6);
+      padding: 0 5%;
+    }
+
+    .stats-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-item {
+      padding: 36px 20px;
+      text-align: center;
+      border-left: 1px solid var(--gray-light);
+    }
+
+    .stat-item:last-child { border-left: none; }
+
+    .stat-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-num span { color: var(--orange); }
+
+    .stat-label {
+      font-size: 0.92rem;
+      color: var(--text-soft);
+      font-weight: 500;
+    }
+
+    /* ─── SECTION SHARED ─────────────────────────────────── */
+    .section { padding: 90px 5%; }
+    .section-alt {
+      background: rgba(247,248,252,0.50);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ─── SERVICES ───────────────────────────────────────── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(238,240,246,0.7);
+      border-radius: 14px;
+      padding: 32px 26px;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle at 100% 100%, rgba(242,101,34,0.07) 0%, transparent 70%);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .service-card:hover {
+      border-color: var(--orange);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(13,37,83,0.1);
+    }
+
+    .service-icon {
+      width: 52px; height: 52px;
+      background: rgba(242,101,34,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px;
+      transition: background 0.25s;
+      position: relative;
+      z-index: 2;
+    }
+
+    .service-card:hover .service-icon { background: rgba(242,101,34,0.2); }
+
+    .service-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 2;
+      transition: color 0.45s ease;
+    }
+
+    .service-card p {
+      font-size: 0.92rem;
+      color: var(--text-soft);
+      line-height: 1.55;
+      position: relative;
+      z-index: 2;
+      transition: color 0.45s ease;
+    }
+
+    /* ── image reveal layer ── */
+    .svc-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transform: scale(1.05);
+      transition: opacity 0.55s ease, transform 0.65s ease;
+      border-radius: inherit;
+      z-index: 0;
+    }
+
+    .svc-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(13,37,83,0.70) 0%, rgba(5,14,40,0.86) 100%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      border-radius: inherit;
+      z-index: 1;
+    }
+
+    @media (hover: hover) {
+      .service-card:hover .svc-bg { opacity: 1; transform: scale(1); }
+      .service-card:hover .svc-bg-overlay { opacity: 1; }
+      .service-card:hover h3 { color: #fff; }
+      .service-card:hover p { color: rgba(255,255,255,0.72); }
+    }
+
+    /* ─── WHY US ─────────────────────────────────────────── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .why-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .why-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .why-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .why-item-text h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .why-item-text p {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .why-card-main {
+      background: rgba(13,37,83,0.60);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 40px 36px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-card-main::before {
+      content: '';
+      position: absolute;
+      top: -40px; left: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(242,101,34,0.15);
+    }
+
+    .why-card-main::after {
+      content: '';
+      position: absolute;
+      bottom: -30px; right: -30px;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .why-card-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--orange-light);
+      margin-bottom: 14px;
+    }
+
+    .why-card-heading {
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+
+    .why-checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .why-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .why-checklist li::before {
+      content: '✓';
+      width: 22px; height: 22px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    /* ─── DIFFERENCE ─────────────────────────────────────── */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .diff-card {
+      border-radius: 16px;
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .diff-card-bad {
+      background: rgba(249,249,251,0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(224,227,237,0.6);
+    }
+
+    .diff-card-good {
+      background: rgba(13,37,83,0.60);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(30,64,150,0.5);
+    }
+
+    .diff-card-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .diff-card-bad .diff-card-label { color: #9aa0b5; }
+    .diff-card-good .diff-card-label { color: var(--orange); }
+
+    .diff-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .diff-card-bad h3 { color: var(--navy); }
+    .diff-card-good h3 { color: white; }
+
+    .diff-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .diff-items li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.93rem;
+    }
+
+    .diff-card-bad .diff-items li { color: var(--text-soft); }
+    .diff-card-good .diff-items li { color: rgba(255,255,255,0.85); }
+
+    .diff-items li .icon {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+      font-weight: 900;
+    }
+
+    .diff-card-bad .icon { background: rgba(0,0,0,0.07); color: #9aa0b5; }
+    .diff-card-good .icon { background: var(--orange); color: white; }
+
+    /* ─── AREAS ──────────────────────────────────────────── */
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .area-card {
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1.5px solid rgba(238,240,246,0.6);
+      border-radius: 12px;
+      padding: 28px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .area-card:hover {
+      border-color: var(--navy-light);
+      box-shadow: 0 6px 20px rgba(13,37,83,0.08);
+    }
+
+    .area-dot {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .area-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .area-sub {
+      font-size: 0.82rem;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    /* ─── INSURANCE ──────────────────────────────────────── */
+    .insurance-band {
+      background: linear-gradient(135deg, rgba(13,37,83,0.62) 0%, rgba(22,50,114,0.62) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 72px 5%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insurance-band::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(242,101,34,0.1);
+    }
+
+    .insurance-band-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .insurance-icon-big {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .insurance-content h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .insurance-content p {
+      color: rgba(255,255,255,0.75);
+      font-size: 1.02rem;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ─── SPECIAL OFFER ──────────────────────────────────── */
+    .offer-band {
+      background: rgba(242,101,34,0.68);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 52px 5%;
+      text-align: center;
+    }
+
+    .offer-band-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .offer-badge {
+      background: rgba(0,0,0,0.15);
+      border-radius: 50%;
+      width: 100px; height: 100px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .offer-badge .offer-pct {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .offer-badge .offer-off {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .offer-text h3 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .offer-text p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.88);
+    }
+
+    /* ─── CONTACT ────────────────────────────────────────── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-block { margin-bottom: 36px; }
+
+    .contact-block-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+
+    .contact-phone {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--navy);
+      text-decoration: none;
+      direction: ltr;
+      display: inline-block;
+      transition: color 0.2s;
+    }
+
+    .contact-phone:hover { color: var(--orange); }
+
+    .contact-hours {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contact-hours li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      background: rgba(247,248,252,0.72);
+      border-radius: 8px;
+    }
+
+    .contact-hours li span:first-child { font-weight: 600; color: var(--navy); }
+    .contact-hours li span:last-child { color: var(--text-soft); }
+
+    .contact-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-family: 'Heebo', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .contact-btn-call { background: var(--navy); color: white; }
+    .contact-btn-wa   { background: #25d366; color: white; }
+
+    .contact-btn-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.18);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-btn-text { flex: 1; }
+    .contact-btn-text .contact-btn-sub { display: block; font-size: 0.78rem; font-weight: 500; opacity: 0.8; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: rgba(8,14,29,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 48px 5% 28px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .footer-inner { max-width: 1200px; margin: 0 auto; }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-brand { display: flex; align-items: center; gap: 14px; }
+
+    .footer-logo {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      padding: 3px;
+      object-fit: contain;
+    }
+
+    .footer-name { font-size: 1.2rem; font-weight: 800; color: white; }
+    .footer-tagline { font-size: 0.82rem; color: var(--orange-light); margin-top: 3px; }
+
+    .footer-col h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 14px;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-col ul li { font-size: 0.9rem; }
+    .footer-col ul a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--orange-light); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.83rem;
+    }
+
+    /* ─── FLOATING WHATSAPP ──────────────────────────────── */
+    .float-wa {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      z-index: 999;
+      width: 60px; height: 60px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: wa-pulse 3s ease-in-out infinite;
+    }
+
+    .float-wa:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+      animation: none;
+    }
+
+    @keyframes wa-pulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.45); }
+      50%       { box-shadow: 0 4px 32px rgba(37,211,102,0.7); }
+    }
+
+    .float-wa svg { width: 32px; height: 32px; }
+
+    /* ═══════════════════════════════════════════════════════
+       MOBILE DESIGN SYSTEM  ·  320 – 768px
+       All desktop rules above this line are unchanged.
+       ═══════════════════════════════════════════════════════ */
+
+    /* ── Tablet only: collapse 2-col layouts ────────────── */
+    @media (max-width: 900px) {
+      .hero-inner { align-items: center; }
+      .why-grid { grid-template-columns: 1fr; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .insurance-band-inner { grid-template-columns: 1fr; text-align: center; }
+    }
+
+    /* ── Mobile baseline: 768px and below ────────────────── */
+    @media (max-width: 768px) {
+
+      /* — Navbar — */
+      .navbar { height: 60px; padding: 0 20px; }
+      .nav-logo { width: 40px; height: 40px; }
+      .nav-brand { gap: 9px; }
+      .nav-brand-name { font-size: 1.1rem; }
+      .nav-phone-quick { display: none; }
+
+      /* — Hero — */
+      .hero { padding-top: 60px; min-height: calc(var(--real-vh, 1vh) * 100); }
+      .hero::after { height: 72px; }
+      .hero-inner { padding: 32px 20px 82px; align-items: stretch; }
+      .hero-text-wrap {
+        padding: 24px 20px;
+        border-radius: 14px;
+        background: rgba(9, 23, 60, 0.84);
+      }
+      .hero-badge {
+        font-size: 0.77rem;
+        padding: 5px 12px;
+        margin-bottom: 14px;
+        letter-spacing: 0.2px;
+      }
+      .hero h1 {
+        font-size: 1.85rem;
+        line-height: 1.18;
+        letter-spacing: -0.5px;
+        margin-bottom: 10px;
+      }
+      .hero-sub {
+        font-size: 0.95rem;
+        line-height: 1.62;
+        margin-bottom: 22px;
+        max-width: 100%;
+      }
+      .hero-actions { flex-direction: column; gap: 10px; width: 100%; }
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 0.98rem;
+      }
+      .hero-trust {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        justify-content: flex-start;
+      }
+      .hero-trust-item { font-size: 0.82rem; }
+
+      /* — Stats bar: 3-col horizontal strip (compact) — */
+      .stats-bar-inner { grid-template-columns: repeat(3, 1fr); }
+      .stat-item {
+        padding: 16px 8px;
+        border-left: 1px solid var(--gray-light);
+        border-bottom: none;
+      }
+      .stat-item:last-child { border-left: none; }
+      .stat-num { font-size: 1.6rem; margin-bottom: 2px; }
+      .stat-label { font-size: 0.72rem; line-height: 1.3; }
+
+      /* — Section shared — */
+      .section { padding: 40px 20px; }
+      .section-alt { background: rgba(247,248,252,0.60); }
+      .section-header { margin-bottom: 26px; }
+      .section-eyebrow { font-size: 0.72rem; letter-spacing: 1.5px; margin-bottom: 7px; }
+      .section-title { font-size: 1.45rem; letter-spacing: -0.3px; margin-bottom: 9px; }
+      .section-desc { font-size: 0.92rem; }
+
+      /* — Services: 2-col compact grid — */
+      .services-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .service-card { padding: 18px 14px; border-radius: 12px; }
+      .service-icon {
+        width: 38px; height: 38px;
+        border-radius: 9px;
+        margin-bottom: 11px;
+      }
+      .service-icon svg { width: 20px; height: 20px; }
+      .service-card h3 { font-size: 0.9rem; margin-bottom: 5px; }
+      .service-card p { font-size: 0.8rem; line-height: 1.45; }
+
+      /* — Why us — */
+      .why-grid { gap: 24px; }
+      .why-list { gap: 14px; margin-top: 20px; }
+      .why-icon { width: 38px; height: 38px; border-radius: 8px; }
+      .why-item { gap: 12px; }
+      .why-item-text h4 { font-size: 0.95rem; margin-bottom: 3px; }
+      .why-item-text p { font-size: 0.86rem; }
+      .why-card-main { padding: 22px 18px; border-radius: 14px; }
+      .why-card-heading { font-size: 1.25rem; margin-bottom: 14px; }
+      .why-checklist { gap: 9px; }
+      .why-checklist li { font-size: 0.88rem; gap: 8px; }
+
+      /* — Difference — */
+      .diff-grid { gap: 10px; }
+      .diff-card { padding: 20px 18px; border-radius: 14px; }
+      .diff-card h3 { font-size: 1.05rem; margin-bottom: 12px; }
+      .diff-card-label { font-size: 0.74rem; margin-bottom: 12px; }
+      .diff-items { gap: 8px; }
+      .diff-items li { font-size: 0.86rem; }
+
+      /* — Areas: 2×2 grid — */
+      .areas-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .area-card { padding: 16px 14px; gap: 11px; border-radius: 10px; }
+      .area-dot { width: 34px; height: 34px; }
+      .area-dot svg { width: 15px; height: 15px; }
+      .area-name { font-size: 0.93rem; }
+      .area-sub { font-size: 0.73rem; }
+
+      /* — Insurance band — */
+      .insurance-band { padding: 40px 20px; }
+      .insurance-band-inner { gap: 16px; }
+      .insurance-icon-big svg { width: 52px; height: 52px; }
+      .insurance-content h2 { font-size: 1.25rem; margin-bottom: 8px; }
+      .insurance-content p { font-size: 0.9rem; line-height: 1.65; }
+
+      /* — Offer band — */
+      .offer-band { padding: 30px 20px; }
+      .offer-band-inner { gap: 18px; }
+      .offer-text h3 { font-size: 1.15rem; margin-bottom: 5px; }
+      .offer-text p { font-size: 0.9rem; }
+      .offer-badge { width: 82px; height: 82px; }
+      .offer-badge .offer-pct { font-size: 1.7rem; }
+
+      /* — Contact — */
+      .contact-grid { gap: 24px; }
+      .contact-block { margin-bottom: 20px; }
+      .contact-phone { font-size: 1.65rem; }
+      .contact-actions { gap: 10px; }
+      .contact-btn { padding: 15px 18px; font-size: 0.95rem; gap: 12px; border-radius: 10px; }
+      .contact-btn-icon { width: 40px; height: 40px; border-radius: 8px; }
+
+      /* — Footer — */
+      footer { padding: 32px 20px 18px; }
+      .footer-top {
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+      }
+      .footer-col h4 { margin-bottom: 10px; }
+      .footer-col ul { gap: 6px; }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        font-size: 0.77rem;
+      }
+
+      /* — Calculator — */
+      .calc-card { grid-template-columns: 1fr; border-radius: 16px; }
+      .calc-inputs-panel {
+        border-left: none;
+        border-inline-start: none;
+        border-bottom: 1px solid rgba(238,240,246,0.9);
+        padding: 22px 18px;
+        gap: 18px;
+      }
+      .calc-results-panel { padding: 22px 18px; }
+      .calc-total-amount { font-size: 2.2rem; }
+      .calc-stepper { display: flex; width: 100%; }
+      .calc-stepper button { width: 48px; height: 50px; }
+      .calc-stepper input { flex: 1; width: auto; height: 50px; font-size: 1.1rem; }
+      .calc-service-item { padding: 12px 14px; }
+      .calc-total-box .btn-primary { width: 100%; justify-content: center; }
+
+      /* — Mobile nav open state — */
+      .nav-links.open { top: 60px; padding: 6px 0 14px; gap: 0; }
+      .nav-links.open li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .nav-links.open a { display: block; padding: 13px 20px; font-size: 0.97rem; }
+      .nav-links.open .nav-cta {
+        margin: 10px 20px 0;
+        display: block;
+        text-align: center;
+        padding: 11px 20px;
+        border-radius: 8px;
+      }
+    }
+
+    /* ── Mobile: gradient circle bottom nav ────────────── */
+    @media (max-width: 640px) {
+
+      /* ── Navbar shell ─────────────────────────────────── */
+      .navbar {
+        top: auto;
+        bottom: 0;
+        height: 76px;
+        padding: 0 10px;
+        border-bottom: none;
+        border-top: none;
+        background: rgba(8, 15, 38, 0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+        box-shadow: 0 -2px 20px rgba(0,0,0,0.3);
+      }
+      .navbar.nav-hidden { transform: translateY(100%); }
+
+      /* ── Hide desktop-only elements ───────────────────── */
+      .nav-brand       { display: none !important; }
+      .nav-phone-quick { display: none !important; }
+      .hamburger       { display: none !important; }
+
+      /* ── Language switcher: fixed top-left corner ─────── */
+      .lang-switcher {
+        display: block !important;
+        position: fixed !important;
+        top: 10px !important;
+        left: 10px !important;
+        z-index: 1100 !important;
+        margin: 0 !important;
+      }
+      .lang-btn {
+        background: rgba(13, 37, 83, 0.82);
+        border: 1px solid rgba(255,255,255,0.22);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 7px 11px 7px 9px;
+        gap: 6px;
+      }
+      .lang-name    { display: inline !important; font-size: 0.82rem; }
+      .lang-chevron { display: inline !important; }
+
+      /* ── Nav links container ──────────────────────────── */
+      .nav-links,
+      .nav-links.open {
+        display: flex !important;
+        flex-direction: row !important;
+        position: static !important;
+        background: transparent !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        width: 100%;
+        height: 76px;
+        align-items: center;
+        justify-content: space-around;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      .nav-links li,
+      .nav-links.open li {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: none !important;
+      }
+
+      /* ── Each item: column (circle + label) ───────────── */
+      .nav-links a,
+      .nav-links.open a {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        width: 100%;
+        height: 76px;
+        padding: 8px 2px !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        text-decoration: none;
+        cursor: pointer;
+        overflow: visible;
+      }
+
+      /* ── Circle container ─────────────────────────────── */
+      .bn-circle {
+        position: relative;
+        width: 42px;
+        height: 42px;
+        border-radius: 9999px;
+        background: white;
+        box-shadow: 0 3px 14px rgba(0,0,0,0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: box-shadow 0.4s ease, filter 0.4s ease;
+      }
+
+      /* ── Gradient fill (revealed on active) ───────────── */
+      .bn-fill {
+        position: absolute;
+        inset: 0;
+        border-radius: 9999px;
+        background: linear-gradient(45deg, var(--g-from), var(--g-to));
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+
+      /* ── Icon ─────────────────────────────────────────── */
+      .nav-tab-icon {
+        position: relative;
+        z-index: 1;
+        display: flex !important;
+        align-items: center;
+        color: #6b7280;
+        transition: color 0.35s ease;
+        flex-shrink: 0;
+      }
+
+      /* ── Label: always visible below the circle ───────── */
+      .bn-label {
+        position: static !important;
+        transform: none !important;
+        opacity: 1 !important;
+        color: rgba(255,255,255,0.58) !important;
+        font-size: 0.55rem !important;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        line-height: 1;
+        pointer-events: none;
+        transition: color 0.35s ease;
+      }
+
+      /* ── Active state ─────────────────────────────────── */
+      .nav-links a.active .bn-circle,
+      .nav-links.open a.active .bn-circle {
+        box-shadow: none;
+        filter: drop-shadow(0 5px 10px var(--g-from));
+      }
+      .nav-links a.active .bn-fill,
+      .nav-links.open a.active .bn-fill { opacity: 1; }
+      .nav-links a.active .nav-tab-icon,
+      .nav-links.open a.active .nav-tab-icon { color: white; }
+      .nav-links a.active .bn-label,
+      .nav-links.open a.active .bn-label { color: white !important; }
+
+      /* ── CTA: no special override needed ──────────────── */
+      .nav-links .nav-cta,
+      .nav-links.open .nav-cta {
+        background: transparent !important;
+        border-radius: 0 !important;
+        padding: 8px 2px !important;
+        margin: 0 !important;
+      }
+
+      /* ── Hero: no top padding (no top bar) ────────────── */
+      .hero { padding-top: 0 !important; }
+
+      /* ── Lift floating WhatsApp above bottom nav ──────── */
+      .float-wa { bottom: 84px; }
+
+      /* ── Prevent footer hiding behind nav ─────────────── */
+      body { padding-bottom: 76px; }
+    }
+
+    /* ── Very small phones: 380px ───────────────────────── */
+    @media (max-width: 380px) {
+      .nav-brand-name span { display: none; }
+      .lang-name { display: none; }
+      .lang-btn { padding: 6px 8px; gap: 5px; }
+      .hero h1 { font-size: 1.65rem; }
+      .services-grid { grid-template-columns: 1fr; gap: 8px; }
+      .areas-grid { grid-template-columns: 1fr; gap: 8px; }
+    }
+
+    /* ─── CALCULATOR ────────────────────────────────────── */
+    .calc-card {
+      background: rgba(255,255,255,0.60);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(238,240,246,0.7);
+      border-radius: 20px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      box-shadow: 0 8px 48px rgba(13,37,83,0.12);
+    }
+
+    .calc-inputs-panel {
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      border-left: 1px solid rgba(238,240,246,0.9);
+    }
+
+    .calc-results-panel {
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Cascade fix: desktop rules above override the earlier mobile block,
+       so we re-declare the mobile overrides here, after the desktop rules. */
+    @media (max-width: 768px) {
+      .calc-card { grid-template-columns: 1fr; }
+      .calc-inputs-panel {
+        border-left: none;
+        border-inline-start: none;
+        border-bottom: 1px solid rgba(238,240,246,0.9);
+        padding: 22px 18px;
+        gap: 18px;
+      }
+      .calc-results-panel { padding: 22px 18px; }
+    }
+
+    .calc-field > label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .calc-field-hint {
+      font-size: 0.77rem;
+      color: var(--gray);
+      margin-top: 7px;
+    }
+
+    .calc-stepper {
+      display: inline-flex;
+      align-items: center;
+      border: 1.5px solid var(--gray-light);
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .calc-stepper button {
+      width: 44px; height: 44px;
+      background: rgba(247,248,252,0.95);
+      border: none;
+      cursor: pointer;
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .calc-stepper button:hover  { background: var(--gray-light); }
+    .calc-stepper button:active { background: rgba(242,101,34,0.12); }
+
+    .calc-stepper input {
+      width: 64px; height: 44px;
+      border: none;
+      border-right: 1.5px solid var(--gray-light);
+      border-left: 1.5px solid var(--gray-light);
+      text-align: center;
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      background: white;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+
+    .calc-stepper input::-webkit-outer-spin-button,
+    .calc-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    .calc-services { display: flex; flex-direction: column; gap: 10px; }
+
+    .calc-service-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 16px;
+      border: 1.5px solid var(--gray-light);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+
+    .calc-service-item:hover {
+      border-color: rgba(242,101,34,0.45);
+      background: rgba(242,101,34,0.03);
+    }
+
+    .calc-service-item.active {
+      border-color: var(--orange);
+      background: rgba(242,101,34,0.07);
+    }
+
+    .calc-service-item input[type="checkbox"] { display: none; }
+
+    .calc-service-box {
+      width: 20px; height: 20px;
+      border-radius: 5px;
+      border: 2px solid var(--gray-light);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .calc-service-item.active .calc-service-box {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .calc-service-box svg          { display: none; }
+    .calc-service-item.active .calc-service-box svg { display: block; }
+
+    .calc-service-info { display: flex; flex-direction: column; gap: 2px; }
+
+    .calc-service-name { font-size: 0.95rem; font-weight: 600; color: var(--navy); }
+    .calc-service-desc { font-size: 0.77rem; color: var(--gray); }
+
+    .calc-breakdown { flex: 1; }
+
+    .calc-breakdown-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--orange);
+      margin-bottom: 14px;
+    }
+
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(238,240,246,0.9);
+    }
+
+    .calc-row:last-child { border-bottom: none; }
+
+    .calc-row-label { font-size: 0.9rem; color: var(--text-soft); }
+
+    .calc-row-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+      transition: color 0.2s;
+    }
+
+    .calc-row-value.muted { color: var(--gray); font-weight: 400; }
+
+    .calc-total-box {
+      margin-top: 22px;
+      background: rgba(13,37,83,0.05);
+      border: 1px solid rgba(13,37,83,0.08);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .calc-total-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .calc-total-amount {
+      display: block;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .calc-total-amount.bump {
+      animation: calcBump 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes calcBump {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .calc-total-note {
+      font-size: 0.73rem;
+      color: var(--gray);
+      margin-top: 8px;
+      line-height: 1.55;
+    }
+
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 72px; left: 0; right: 0;
+      background: var(--navy);
+      padding: 20px 5%;
+      gap: 16px;
+      border-bottom: 2px solid var(--orange);
+    }
+
+    /* ─── LTR OVERRIDE ───────────────────────────────────── */
+    html[dir="ltr"] body { text-align: left; }
+    html[dir="ltr"] .section-header { text-align: center; }
+    html[dir="ltr"] .hero-text-wrap { text-align: left; }
+    html[dir="ltr"] .hero-actions { justify-content: flex-start; }
+    html[dir="ltr"] .hero-trust { justify-content: flex-start; }
+
+    /* ─── LANGUAGE SWITCHER ──────────────────────────────── */
+    .lang-switcher {
+      position: relative;
+      margin-inline-start: 12px;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      padding: 6px 11px 6px 9px;
+      color: white;
+      cursor: pointer;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .lang-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
+
+    .lang-flag { width: 20px; height: 15px; border-radius: 2px; flex-shrink: 0; }
+
+    .lang-chevron { transition: transform 0.25s; flex-shrink: 0; opacity: 0.7; }
+    .lang-switcher.open .lang-chevron { transform: rotate(180deg); }
+
+    .lang-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      inset-inline-end: 0;
+      background: rgba(10,28,70,0.98);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      padding: 5px;
+      min-width: 155px;
+      display: none;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+      z-index: 2000;
+    }
+
+    .lang-switcher.open .lang-dropdown { display: block; }
+
+    .lang-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 9px 13px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.78);
+      cursor: pointer;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.9rem;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+      text-align: left;
+      direction: ltr;
+    }
+
+    .lang-option:hover { background: rgba(255,255,255,0.09); color: #fff; }
+    .lang-option.active { color: var(--orange); background: rgba(242,101,34,0.1); font-weight: 600; }
+    .lang-option .fi { width: 20px; height: 15px; border-radius: 2px; flex-shrink: 0; }
+
+    /* page hidden until i18n ready to prevent flash */
+    body { visibility: hidden; }
+    body.i18n-ready { visibility: visible; }
+
+    /* ─── SKIP LINK ─────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      right: 0;
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 24px;
+      z-index: 10000;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 0 0 0 8px;
+      text-decoration: none;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ─── FOCUS VISIBLE ──────────────────────────────────── */
+    :focus { outline: none; }
+    :focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    /* ─── PREFERS-REDUCED-MOTION ─────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      #bgCanvas { display: none; }
+    }
+
+    /* ─── FOOTER LEGAL NAV ───────────────────────────────── */
+    .footer-legal { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 8px; }
+    .footer-legal a { color: rgba(255,255,255,0.6); font-size: 0.82rem; text-decoration: underline; text-underline-offset: 3px; }
+    .footer-legal a:hover { color: white; }
+    @media (max-width: 768px) { .footer-legal { gap: 6px 14px; } }
+
+  </style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">דלג לתוכן הראשי</a>
+
+<!-- ─── BACKGROUND VIDEO CANVAS ──────────────────── -->
+<canvas id="bgCanvas" aria-hidden="true" role="presentation"></canvas>
+
+<!-- ─── FLOATING WHATSAPP ──────────────────────────── -->
+<a href="https://wa.me/972529014037" target="_blank" rel="noopener" class="float-wa" data-i18n-aria="nav.wa_aria" aria-label="שלח הודעה בוואטסאפ">
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <path d="M16 3C8.82 3 3 8.82 3 16c0 2.3.62 4.55 1.79 6.52L3 29l6.64-1.74A13 13 0 0 0 16 29c7.18 0 13-5.82 13-13S23.18 3 16 3z" fill="white"/>
+    <path d="M22.07 19.34c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.22 1.36.19 1.87.11.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z" fill="#25d366"/>
+  </svg>
+</a>
+
+<!-- ─── NAVBAR ──────────────────────────────────────── -->
+<nav class="navbar" id="navbar" aria-label="ניווט ראשי">
+  <a href="#" class="nav-brand">
+    <img src="/logo.png" data-i18n-alt="nav.logo_alt" alt="לוגו אלי הובלות" class="nav-logo" />
+    <div class="nav-brand-name">
+      אלי הובלות
+      <span data-i18n="nav.brand_sub">מחיר קבוע ללא הפתעות</span>
+    </div>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li style="--g-from:#a955ff;--g-to:#ea51ff;"><a href="#services">
+      <span class="bn-circle">
+        <span class="bn-fill"></span>
+        <svg class="nav-tab-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </span>
+      <span class="bn-label" data-i18n="nav.services">שירותים</span>
+    </a></li>
+    <li style="--g-from:#56CCF2;--g-to:#2F80ED;"><a href="#why-us">
+      <span class="bn-circle">
+        <span class="bn-fill"></span>
+        <svg class="nav-tab-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </span>
+      <span class="bn-label" data-i18n="nav.why_us">למה אנחנו</span>
+    </a></li>
+    <li style="--g-from:#FF9966;--g-to:#FF5E62;"><a href="#areas">
+      <span class="bn-circle">
+        <span class="bn-fill"></span>
+        <svg class="nav-tab-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </span>
+      <span class="bn-label" data-i18n="nav.areas">אזורי שירות</span>
+    </a></li>
+    <li style="--g-from:#43e97b;--g-to:#38f9d7;"><a href="#calculator">
+      <span class="bn-circle">
+        <span class="bn-fill"></span>
+        <svg class="nav-tab-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="2" width="16" height="20" rx="2"/><rect x="7" y="5" width="10" height="4" rx="1" fill="currentColor" stroke="none"/><circle cx="8" cy="13" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="13" r="1.2" fill="currentColor" stroke="none"/><circle cx="16" cy="13" r="1.2" fill="currentColor" stroke="none"/><circle cx="8" cy="17" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="17" r="1.2" fill="currentColor" stroke="none"/><circle cx="16" cy="17" r="1.2" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <span class="bn-label" data-i18n="nav.calculator">מחשבון</span>
+    </a></li>
+    <li style="--g-from:#f7971e;--g-to:#ffd200;"><a href="#contact" class="nav-cta">
+      <span class="bn-circle">
+        <span class="bn-fill"></span>
+        <svg class="nav-tab-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </span>
+      <span class="bn-label" data-i18n="nav.cta">קבל הצעת מחיר</span>
+    </a></li>
+  </ul>
+
+  <a href="tel:0532253537" class="nav-phone-quick">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.49 5.49l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+    053-225-3537
+  </a>
+
+  <!-- Language Switcher -->
+  <div class="lang-switcher" id="langSwitcher">
+    <button class="lang-btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+      <span class="fi fi-il lang-flag" id="langBtnFlag"></span>
+      <span class="lang-name" id="langBtnName">עברית</span>
+      <svg class="lang-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="lang-dropdown" id="langDropdown" role="listbox">
+      <button class="lang-option active" data-lang="he" role="option">
+        <span class="fi fi-il"></span> עברית
+      </button>
+      <button class="lang-option" data-lang="en" role="option">
+        <span class="fi fi-us"></span> English
+      </button>
+      <button class="lang-option" data-lang="fr" role="option">
+        <span class="fi fi-fr"></span> Français
+      </button>
+    </div>
+  </div>
+
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="פתח תפריט" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main id="main-content">
+
+<!-- ─── HERO ───────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-text-wrap">
+      <div class="hero-badge" data-i18n="hero.badge">7 שנות ניסיון בתחום ההובלות</div>
+      <h1 data-i18n-html="hero.title">הובלה <em>מקצועית</em><br />ללא הפתעות</h1>
+      <p class="hero-sub" data-i18n="hero.sub">
+        מחיר קבוע שמוסכם מראש. שקיפות מלאה לפני ההובלה. שירות שנמשך עד שאתם מרוצים לחלוטין.
+      </p>
+      <div class="hero-actions">
+        <a href="https://wa.me/972529014037" class="btn-primary" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span data-i18n="hero.cta_wa">קבל הצעת מחיר בוואטסאפ</span>
+        </a>
+        <a href="tel:0532253537" class="btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.49 5.49l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+          <span data-i18n="hero.cta_call">התקשר עכשיו</span>
+        </a>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-item">
+          <div class="check">✓</div>
+          <span data-i18n="hero.trust_1">ביטוח מלא</span>
+        </div>
+        <div class="hero-trust-item">
+          <div class="check">✓</div>
+          <span data-i18n="hero.trust_2">ללא עלויות נסתרות</span>
+        </div>
+        <div class="hero-trust-item">
+          <div class="check">✓</div>
+          <span data-i18n="hero.trust_3">הנחה לחיילים</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS BAR ──────────────────────────────────── -->
+<section class="stats-bar" aria-label="נתוני החברה">
+  <div class="stats-bar-inner">
+    <div class="stat-item">
+      <div class="stat-num">7<span>+</span></div>
+      <div class="stat-label" data-i18n="stats.years">שנות ניסיון בתחום</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">300<span>+</span></div>
+      <div class="stat-label" data-i18n="stats.clients">לקוחות מרוצים</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">200<span>+</span></div>
+      <div class="stat-label" data-i18n="stats.moves">הובלות דירה בוצעו</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ───────────────────────────────────── -->
+<section class="section" id="services">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="services.eyebrow">מה אנחנו מציעים</div>
+      <h2 class="section-title" data-i18n="services.title">השירותים שלנו</h2>
+      <p class="section-desc" data-i18n="services.desc">פתרונות הובלה מקיפים לכל צורך – מהובלת דירה מלאה ועד שירותי אריזה ופירוק רהיטים</p>
+    </div>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="svc-bg" style="background-image:url('בית%20הובלות.jpg')"></div>
+        <div class="svc-bg-overlay"></div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <h3 data-i18n="services.apt_title">הובלת דירה</h3>
+        <p data-i18n="services.apt_desc">הובלה מקצועית של דירות בכל גודל, כולל טיפול קפדני בכל פריט.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-bg" style="background-image:url('משרד%20הובלה.jpg')"></div>
+        <div class="svc-bg-overlay"></div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <h3 data-i18n="services.office_title">הובלת משרד</h3>
+        <p data-i18n="services.office_desc">העברת משרדים ועסקים בצורה יעילה ומהירה עם מינימום הפרעה לפעילות.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-bg" style="background-image:url('הובלות%20קטנות%20תמונה.jpg')"></div>
+        <div class="svc-bg-overlay"></div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h3 data-i18n="services.small_title">הובלות קטנות</h3>
+        <p data-i18n="services.small_desc">פתרון מהיר וחסכוני להעברת כמות קטנה של פריטים או רהיט בודד.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-bg" style="background-image:url('שירות%20אריזה%20תמונה.jpg')"></div>
+        <div class="svc-bg-overlay"></div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+        </div>
+        <h3 data-i18n="services.pack_title">שירות אריזה</h3>
+        <p data-i18n="services.pack_desc">אריזה מקצועית ומוקפדת עם חומרי הגנה איכותיים לכל הפריטים.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-bg" style="background-image:url('פריקה%20וסידור%20תמונה.jpg')"></div>
+        <div class="svc-bg-overlay"></div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="15" y2="16"/></svg>
+        </div>
+        <h3 data-i18n="services.unpack_title">פריקה וסידור</h3>
+        <p data-i18n="services.unpack_desc">לא עוזבים לפני שהכל מסודר – פורקים, מסירים עטיפות ומסדרים הכל במקום.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-bg" style="background-image:url('פירוק%20והרכבת%20רהיטים.jpg')"></div>
+        <div class="svc-bg-overlay"></div>
+        <div class="service-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f26522" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <h3 data-i18n="services.furniture_title">פירוק והרכבת רהיטים</h3>
+        <p data-i18n="services.furniture_desc">פירוק והרכבה מקצועית של כל סוגי הרהיטים לפני ואחרי ההובלה.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CALCULATOR ────────────────────────────────────── -->
+<section class="section" id="calculator">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="calc.eyebrow">כמה תעלה ההובלה שלי?</div>
+      <h2 class="section-title" data-i18n="calc.title">מחשבון עלות הובלה</h2>
+      <p class="section-desc" data-i18n="calc.desc">הזינו את פרטי ההובלה וקבלו הערכת מחיר מיידית</p>
+    </div>
+
+    <div class="calc-card">
+
+      <!-- ─ INPUTS ─ -->
+      <div class="calc-inputs-panel" role="form" aria-label="מחשבון עלות הובלה">
+
+        <div class="calc-field">
+          <label for="calcRoomsVal" data-i18n="calc.rooms_label">מספר חדרים</label>
+          <div class="calc-stepper">
+            <button type="button" id="calcRoomsMinus" aria-label="הפחת חדר">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <input id="calcRoomsVal" type="number" value="1" min="1" aria-label="מספר חדרים" aria-describedby="calcRoomsHint" />
+            <button type="button" id="calcRoomsPlus" aria-label="הוסף חדר">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+          <div id="calcRoomsHint" class="calc-field-hint" data-i18n="calc.rooms_hint">כל חדר: ₪1,000</div>
+        </div>
+
+        <div class="calc-field">
+          <label for="calcFloorVal" data-i18n="calc.floor_label">קומה</label>
+          <div class="calc-stepper">
+            <button type="button" id="calcFloorMinus" aria-label="הפחת קומה">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <input id="calcFloorVal" type="number" value="0" min="0" aria-label="קומה" aria-describedby="calcFloorHint" />
+            <button type="button" id="calcFloorPlus" aria-label="הוסף קומה">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+          </div>
+          <div id="calcFloorHint" class="calc-field-hint" data-i18n="calc.floor_hint">קומה 0 = קרקע · כל קומה מוסיפה ₪500</div>
+        </div>
+
+        <div class="calc-field">
+          <label data-i18n="calc.add_services">שירותים נוספים</label>
+          <div class="calc-services">
+
+            <label class="calc-service-item" id="calcPackingLabel">
+              <input type="checkbox" id="calcPackingCheck" />
+              <div class="calc-service-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="calc-service-info">
+                <span class="calc-service-name" data-i18n="calc.packing_name">שירות אריזה</span>
+                <span class="calc-service-desc" data-i18n="calc.packing_pct">70% ממחיר הבסיס</span>
+              </div>
+            </label>
+
+            <label class="calc-service-item" id="calcUnpackingLabel">
+              <input type="checkbox" id="calcUnpackingCheck" />
+              <div class="calc-service-box">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="calc-service-info">
+                <span class="calc-service-name" data-i18n="calc.unpacking_name">פריקה וסידור</span>
+                <span class="calc-service-desc" data-i18n="calc.unpacking_pct">70% ממחיר הבסיס</span>
+              </div>
+            </label>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ─ RESULTS ─ -->
+      <div class="calc-results-panel">
+
+        <div class="calc-breakdown">
+          <div class="calc-breakdown-title" data-i18n="calc.breakdown_title">פירוט מחיר</div>
+
+          <div class="calc-row">
+            <span class="calc-row-label" data-i18n="calc.base_label">מחיר הובלה בסיסי</span>
+            <span class="calc-row-value" id="calcBase">₪1,000</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-label" data-i18n="calc.floor_result_label">תוספת קומה</span>
+            <span class="calc-row-value muted" id="calcFloor">—</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-label" data-i18n="calc.packing_label">אריזה</span>
+            <span class="calc-row-value muted" id="calcPacking">—</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-label" data-i18n="calc.unpacking_label">פריקה וסידור</span>
+            <span class="calc-row-value muted" id="calcUnpacking">—</span>
+          </div>
+        </div>
+
+        <div class="calc-total-box" aria-live="polite" aria-atomic="true" role="status">
+          <div class="calc-total-label" data-i18n="calc.total_label">סה"כ לתשלום</div>
+          <span class="calc-total-amount" id="calcTotal">₪1,000</span>
+          <div class="calc-total-note" data-i18n="calc.total_note">הערכת מחיר בלבד – לקבלת מחיר מדויק צרו קשר</div>
+          <a href="https://wa.me/972529014037" class="btn-primary" target="_blank" rel="noopener" style="margin-top:16px; justify-content:center; font-size:0.92rem; padding:12px 22px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span data-i18n="calc.cta">קבל הצעה מדויקת בוואטסאפ</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── WHY US ──────────────────────────────────────── -->
+<section class="section section-alt" id="why-us">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div class="why-text">
+        <div class="section-eyebrow" data-i18n="why.eyebrow">למה לבחור בנו</div>
+        <h2 class="section-title" data-i18n-html="why.title">שקיפות מלאה,<br />ללא הפתעות</h2>
+        <p style="color: var(--text-soft); margin-top: 14px; line-height: 1.75;" data-i18n="why.desc">
+          לפני כל הובלה אנחנו מסבירים בדיוק מה יקרה, כיצד תתבצע ההובלה וכמה היא תעלה.
+          לא תופיע שום עלות נוספת שלא הוסכמה מראש.
+        </p>
+
+        <ul class="why-list">
+
+          <li class="why-item">
+            <div class="why-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="why-item-text">
+              <h4 data-i18n="why.item1_title">מחיר קבוע מוסכם מראש</h4>
+              <p data-i18n="why.item1_desc">המחיר שנקבע הוא המחיר הסופי – ללא תוספות, ללא הפתעות.</p>
+            </div>
+          </li>
+
+          <li class="why-item">
+            <div class="why-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="why-item-text">
+              <h4 data-i18n="why.item2_title">אחריות מלאה ורצינות מקצועית</h4>
+              <p data-i18n="why.item2_desc">אנחנו לוקחים אחריות מלאה על כל פריט מרגע האיסוף ועד ההנחה.</p>
+            </div>
+          </li>
+
+          <li class="why-item">
+            <div class="why-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="why-item-text">
+              <h4 data-i18n="why.item3_title">לא עוזבים לפני שאתם מרוצים</h4>
+              <p data-i18n="why.item3_desc">הרהיטים ממוקמים בדיוק היכן שרציתם, הקופסאות מסודרות, העטיפות מוסרות.</p>
+            </div>
+          </li>
+
+          <li class="why-item">
+            <div class="why-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="why-item-text">
+              <h4 data-i18n="why.item4_title">זמינות גבוהה</h4>
+              <p data-i18n="why.item4_desc">בהרבה מקרים לא צריך הזמנה מוקדמת – בואו נדבר ונראה מה אפשר.</p>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="why-visual">
+        <div class="why-card-main">
+          <div class="why-card-label" data-i18n="why.card_label">המחויבות שלנו אליכם</div>
+          <h3 class="why-card-heading" data-i18n-html="why.card_heading">אנחנו נשאר<br />עד שהכל מסודר</h3>
+          <ul class="why-checklist">
+            <li data-i18n="why.checklist_1">מסירת כל חומרי ההגנה והעטיפות</li>
+            <li data-i18n="why.checklist_2">סידור וארגון הקופסאות</li>
+            <li data-i18n="why.checklist_3">הצבת הרהיטים בדיוק היכן שתרצו</li>
+            <li data-i18n="why.checklist_4">וידוא שהכל ערוך ומסודר לפני עזיבה</li>
+            <li data-i18n="why.checklist_5">קבלת אישורכם על שביעות הרצון</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DIFFERENCE ─────────────────────────────────── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="diff.eyebrow">ההבדל שעושה את ההבדל</div>
+      <h2 class="section-title" data-i18n="diff.title">אחרים לעומת אלי הובלות</h2>
+      <p class="section-desc" data-i18n="diff.desc">רוב חברות ההובלה עוזבות מיד לאחר פריקת החפצים. אנחנו עובדים אחרת.</p>
+    </div>
+
+    <div class="diff-grid">
+      <div class="diff-card diff-card-bad">
+        <div class="diff-card-label" data-i18n="diff.bad_label">✗ חברות הובלה רגילות</div>
+        <h3 data-i18n="diff.bad_heading">פורקים ועוזבים</h3>
+        <ul class="diff-items">
+          <li><span class="icon">✗</span> <span data-i18n="diff.bad_1">מניחים הכל ועוזבים מיד</span></li>
+          <li><span class="icon">✗</span> <span data-i18n="diff.bad_2">חומרי אריזה נשארים על הרצפה</span></li>
+          <li><span class="icon">✗</span> <span data-i18n="diff.bad_3">הרהיטים לא במקום הנכון</span></li>
+          <li><span class="icon">✗</span> <span data-i18n="diff.bad_4">לא תמיד ברור מה המחיר הסופי</span></li>
+          <li><span class="icon">✗</span> <span data-i18n="diff.bad_5">כל הסידור נשאר עליכם</span></li>
+        </ul>
+      </div>
+
+      <div class="diff-card diff-card-good">
+        <div class="diff-card-label" data-i18n="diff.good_label">✓ אלי הובלות</div>
+        <h3 style="color: white;" data-i18n="diff.good_heading">נשארים עד שאתם מרוצים</h3>
+        <ul class="diff-items">
+          <li><span class="icon">✓</span> <span data-i18n="diff.good_1">מסירת כל חומרי העטיפה</span></li>
+          <li><span class="icon">✓</span> <span data-i18n="diff.good_2">סידור הקופסאות לפי חדרים</span></li>
+          <li><span class="icon">✓</span> <span data-i18n="diff.good_3">הצבת הרהיטים לפי בקשתכם</span></li>
+          <li><span class="icon">✓</span> <span data-i18n="diff.good_4">מחיר קבוע ומוסכם מראש</span></li>
+          <li><span class="icon">✓</span> <span data-i18n="diff.good_5">עוזבים רק עם אישורכם</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICE AREAS ──────────────────────────────── -->
+<section class="section section-alt" id="areas">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="areas.eyebrow">היכן אנחנו פועלים</div>
+      <h2 class="section-title" data-i18n="areas.title">אזורי השירות שלנו</h2>
+      <p class="section-desc" data-i18n="areas.desc">מציעים שירות בירושלים, תל אביב, מודיעין וכלל מרכז הארץ</p>
+    </div>
+
+    <div class="areas-grid">
+
+      <div class="area-card">
+        <div class="area-dot">
+          <!-- compass/star for Jerusalem -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        </div>
+        <div>
+          <div class="area-name" data-i18n="areas.jerusalem">ירושלים</div>
+          <div class="area-sub" data-i18n="areas.jerusalem_sub">הובלות בכל שכונות העיר</div>
+        </div>
+      </div>
+
+      <div class="area-card">
+        <div class="area-dot">
+          <!-- city buildings for Tel Aviv -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div>
+          <div class="area-name" data-i18n="areas.telaviv">תל אביב</div>
+          <div class="area-sub" data-i18n="areas.telaviv_sub">כולל גוש דן כולו</div>
+        </div>
+      </div>
+
+      <div class="area-card">
+        <div class="area-dot">
+          <!-- leaf for Modi'in -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 19.24a1 1 0 0 0 1.66 1.13C7.04 18.38 8.42 17.34 12 17c3.5 0 6-2 8-4-2 0-6 1-8-5z"/><path d="M3 22L12 11"/></svg>
+        </div>
+        <div>
+          <div class="area-name" data-i18n="areas.modiin">מודיעין</div>
+          <div class="area-sub" data-i18n="areas.modiin_sub">מודיעין–מכבים–רעות</div>
+        </div>
+      </div>
+
+      <div class="area-card">
+        <div class="area-dot">
+          <!-- map pin for Central -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="area-name" data-i18n="areas.center">מרכז הארץ</div>
+          <div class="area-sub" data-i18n="areas.center_sub">רמת גן, בני ברק ועוד</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── INSURANCE ──────────────────────────────────── -->
+<div class="insurance-band">
+  <div class="insurance-band-inner">
+    <div class="insurance-icon-big">
+      <svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+    </div>
+    <div class="insurance-content">
+      <h2 data-i18n="insurance.title">ביטוח מלא לכל הפריטים המועברים</h2>
+      <p data-i18n="insurance.desc">
+        אנחנו מספקים כיסוי ביטוחי מלא לכל הפריטים המועברים.
+        אם השתמשתם בשירות האריזה שלנו, הכיסוי מורחב גם לפריטים שנארזו על ידינו –
+        כולל מכשירי חשמל כגון מקרר, מכונת כביסה וכל ציוד הבית.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SPECIAL OFFER ─────────────────────────────── -->
+<div class="offer-band">
+  <div class="offer-band-inner">
+    <div class="offer-badge">
+      <div class="offer-pct">10%</div>
+      <div class="offer-off" data-i18n="offer.off">הנחה</div>
+    </div>
+    <div class="offer-text">
+      <h3 data-i18n="offer.title">הנחה מיוחדת לחיילים ולמשרתי המילואים</h3>
+      <p data-i18n="offer.desc">אנחנו מכירים בתרומתכם לביטחון המדינה. 10% הנחה לכל חיילי צה"ל ואנשי מילואים.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONTACT ────────────────────────────────────── -->
+<section class="section" id="contact">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" data-i18n="contact.eyebrow">צרו קשר</div>
+      <h2 class="section-title" data-i18n="contact.title">קבלו הצעת מחיר חינם</h2>
+      <p class="section-desc" data-i18n="contact.desc">הצעת מחיר ללא עלות ותשובה מהירה – בוואטסאפ או בטלפון</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-block">
+          <div class="contact-block-label" data-i18n="contact.phone_label">טלפון</div>
+          <a href="tel:0532253537" class="contact-phone">053-225-3537</a>
+        </div>
+
+        <div class="contact-block">
+          <div class="contact-block-label" data-i18n="contact.hours_label">שעות פעילות</div>
+          <ul class="contact-hours">
+            <li>
+              <span data-i18n="contact.hours_sun_thu">ראשון – חמישי</span>
+              <span>07:00 – 21:00</span>
+            </li>
+            <li>
+              <span data-i18n="contact.hours_fri">שישי</span>
+              <span>07:00 – 15:00</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="contact-block">
+          <div class="contact-block-label" data-i18n="contact.quote_label">הצעת מחיר</div>
+          <p data-i18n="contact.quote_desc" style="font-size: 0.95rem; color: var(--text-soft); line-height: 1.7;">
+            ניתן לקבל הצעת מחיר חינמית בוואטסאפ.
+            בהרבה מקרים לא נדרשת הזמנה מוקדמת –
+            צרו קשר ונבדוק יחד מה אפשר לסדר.
+          </p>
+        </div>
+      </div>
+
+      <div class="contact-actions">
+        <a href="tel:0532253537" class="contact-btn contact-btn-call">
+          <div class="contact-btn-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.45 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 5.49 5.49l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+          </div>
+          <div class="contact-btn-text">
+            <span data-i18n="contact.call_btn">התקשר עכשיו</span>
+            <span class="contact-btn-sub">053-225-3537</span>
+          </div>
+        </a>
+        <a href="https://wa.me/972529014037" class="contact-btn contact-btn-wa" target="_blank" rel="noopener">
+          <div class="contact-btn-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="contact-btn-text">
+            <span data-i18n="contact.wa_btn">שלח הודעה בוואטסאפ</span>
+            <span class="contact-btn-sub" data-i18n="contact.wa_sub">תשובה מהירה · הצעת מחיר חינם</span>
+          </div>
+        </a>
+        <div style="background: rgba(247,248,252,0.76); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 12px; padding: 22px 24px; border: 1.5px solid rgba(238,240,246,0.6); margin-top: 8px;">
+          <div data-i18n="contact.owner_label" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--orange); margin-bottom: 10px;">אלי – בעל העסק</div>
+          <p data-i18n="contact.owner_quote" style="font-size: 0.95rem; color: var(--text-soft); line-height: 1.7;">
+            "אני מתחייב לתת לך שירות ישיר, מקצועי ומחיר הוגן.
+            לא תהיה שום הפתעה – מה שסוכם, זה מה שתשלם."
+          </p>
+          <p data-i18n="contact.owner_sig" style="font-size: 0.9rem; font-weight: 700; color: var(--navy); margin-top: 10px;">— אלי, 7 שנות ניסיון בהובלות</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ─── FOOTER ──────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="/logo.png" data-i18n-alt="nav.logo_alt" alt="לוגו אלי הובלות" class="footer-logo" />
+        <div>
+          <div class="footer-name">אלי הובלות</div>
+          <div class="footer-tagline" data-i18n="footer.tagline">מחיר קבוע ללא הפתעות</div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.services_title">שירותים</h4>
+        <ul>
+          <li><a href="#services" data-i18n="footer.service_1">הובלת דירה</a></li>
+          <li><a href="#services" data-i18n="footer.service_2">הובלת משרד</a></li>
+          <li><a href="#services" data-i18n="footer.service_3">הובלות קטנות</a></li>
+          <li><a href="#services" data-i18n="footer.service_4">שירות אריזה</a></li>
+          <li><a href="#services" data-i18n="footer.service_5">פירוק והרכבת רהיטים</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.areas_title">אזורי שירות</h4>
+        <ul>
+          <li><a href="#areas" data-i18n="footer.area_1">ירושלים</a></li>
+          <li><a href="#areas" data-i18n="footer.area_2">תל אביב</a></li>
+          <li><a href="#areas" data-i18n="footer.area_3">מודיעין</a></li>
+          <li><a href="#areas" data-i18n="footer.area_4">מרכז הארץ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 data-i18n="footer.contact_title">צרו קשר</h4>
+        <ul>
+          <li><a href="tel:0532253537">053-225-3537</a></li>
+          <li><a href="https://wa.me/972529014037" target="_blank" rel="noopener" data-i18n="footer.wa_link">וואטסאפ</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">© 2026 אלי הובלות · כל הזכויות שמורות</span>
+      <nav class="footer-legal" aria-label="קישורים משפטיים">
+        <a href="/accessibility">הצהרת נגישות</a>
+        <a href="/privacy">מדיניות פרטיות</a>
+        <a href="/terms">תנאי שימוש</a>
+        <a href="/cookies">מדיניות עוגיות</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Prevent browser from restoring a saved scroll position (would animate with smooth scroll)
+  if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+  // Fix mobile hero height: 100vh includes the browser toolbar on iOS/Android,
+  // making the hero taller than the visual viewport and causing apparent auto-scroll.
+  function fixVH() {
+    document.documentElement.style.setProperty('--real-vh', window.innerHeight * 0.01 + 'px');
+  }
+  fixVH();
+  window.addEventListener('resize', fixVH);
+
+  // Mobile: backdrop-filter on navbar prevents position:fixed from working on children.
+  // Move lang-switcher to <body> so it can be truly fixed at the top of the viewport.
+  (function() {
+    if (window.innerWidth <= 640) {
+      var ls = document.getElementById('langSwitcher');
+      if (ls) document.body.appendChild(ls);
+    }
+  })();
+
+  // Bottom nav: hide on scroll down, show on scroll up (mobile only)
+  (function() {
+    var lastY = 0;
+    var ticking = false;
+    var navbar = document.getElementById('navbar');
+    function onScroll() {
+      var y = window.pageYOffset;
+      if (window.innerWidth <= 640) {
+        if (y > lastY && y > 80) {
+          navbar.classList.add('nav-hidden');
+        } else {
+          navbar.classList.remove('nav-hidden');
+        }
+      } else {
+        navbar.classList.remove('nav-hidden');
+      }
+      lastY = y;
+      ticking = false;
+    }
+    window.addEventListener('scroll', function() {
+      if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+    }, { passive: true });
+  })();
+
+  function toggleNav() {
+    var nav = document.getElementById('navLinks');
+    var btn = document.getElementById('hamburger');
+    var isOpen = nav.classList.toggle('open');
+    if (btn) btn.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  // Nav link clicks: mobile bottom nav gets gradient-circle animation before scroll
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      // Desktop hamburger: close dropdown
+      document.getElementById('navLinks').classList.remove('open');
+
+      if (window.innerWidth <= 640) {
+        var href = this.getAttribute('href');
+        if (href && href.charAt(0) === '#') {
+          var id = href.slice(1);
+          var target = id ? document.getElementById(id) : null;
+          if (target) {
+            e.preventDefault();
+            var clicked = this;
+            // Activate this pill, deactivate others
+            document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+            clicked.classList.add('active');
+            // Scroll after the expansion animation starts
+            setTimeout(function() {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }, 260);
+          }
+        }
+      }
+    });
+  });
+
+  // Smooth scroll for all other anchor links (non-nav, desktop nav)
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      // Mobile nav links are handled above
+      if (window.innerWidth <= 640 && this.closest('#navLinks')) return;
+      var id = this.getAttribute('href').slice(1);
+      var target = id ? document.getElementById(id) : null;
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  window.addEventListener('scroll', function() {
+    var nav = document.getElementById('navbar');
+    nav.style.boxShadow = window.scrollY > 20 ? '0 4px 24px rgba(0,0,0,0.25)' : 'none';
+  });
+
+  var counted = false;
+  function animateCounters() {
+    if (counted) return;
+    var targets = [7, 300, 200];
+    document.querySelectorAll('.stat-num').forEach(function(el, i) {
+      var target = targets[i];
+      var count = 0;
+      var step = Math.ceil(target / 40);
+      var timer = setInterval(function() {
+        count += step;
+        if (count >= target) { count = target; clearInterval(timer); }
+        el.innerHTML = count + '<span>+</span>';
+      }, 35);
+    });
+    counted = true;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) animateCounters(); });
+  }, { threshold: 0.5 });
+
+  var statsBar = document.querySelector('.stats-bar');
+  if (statsBar) observer.observe(statsBar);
+
+  // ─── MOVING COST CALCULATOR ──────────────────────────
+  (function () {
+    var rooms = 1;
+    var floor = 0;
+    var withPacking = false;
+    var withUnpacking = false;
+
+    function calc() {
+      var base      = rooms * 1000;
+      var floorCost = floor * 500;
+      var packCost  = withPacking   ? Math.round(base * 0.7) : 0;
+      var unpackCost= withUnpacking ? Math.round(base * 0.7) : 0;
+      return { base: base, floor: floorCost, packing: packCost, unpacking: unpackCost,
+               total: base + floorCost + packCost + unpackCost };
+    }
+
+    function fmt(n) {
+      return '₪' + n.toLocaleString('he-IL');
+    }
+
+    function render() {
+      var r = calc();
+
+      document.getElementById('calcBase').textContent = fmt(r.base);
+
+      var flEl = document.getElementById('calcFloor');
+      flEl.textContent = r.floor > 0 ? fmt(r.floor) : '—';
+      flEl.className   = 'calc-row-value' + (r.floor === 0 ? ' muted' : '');
+
+      var pkEl = document.getElementById('calcPacking');
+      pkEl.textContent = r.packing > 0 ? fmt(r.packing) : '—';
+      pkEl.className   = 'calc-row-value' + (r.packing === 0 ? ' muted' : '');
+
+      var upEl = document.getElementById('calcUnpacking');
+      upEl.textContent = r.unpacking > 0 ? fmt(r.unpacking) : '—';
+      upEl.className   = 'calc-row-value' + (r.unpacking === 0 ? ' muted' : '');
+
+      var totalEl = document.getElementById('calcTotal');
+      totalEl.textContent = fmt(r.total);
+      totalEl.classList.remove('bump');
+      void totalEl.offsetWidth; // force reflow to restart animation
+      totalEl.classList.add('bump');
+    }
+
+    function setRooms(v) {
+      rooms = Math.max(1, isNaN(v) ? 1 : v);
+      document.getElementById('calcRoomsVal').value = rooms;
+      render();
+    }
+
+    function setFloor(v) {
+      floor = Math.max(0, isNaN(v) ? 0 : v);
+      document.getElementById('calcFloorVal').value = floor;
+      render();
+    }
+
+    document.getElementById('calcRoomsMinus').onclick = function () { setRooms(rooms - 1); };
+    document.getElementById('calcRoomsPlus').onclick  = function () { setRooms(rooms + 1); };
+    document.getElementById('calcRoomsVal').oninput   = function () { setRooms(parseInt(this.value, 10)); };
+
+    document.getElementById('calcFloorMinus').onclick = function () { setFloor(floor - 1); };
+    document.getElementById('calcFloorPlus').onclick  = function () { setFloor(floor + 1); };
+    document.getElementById('calcFloorVal').oninput   = function () { setFloor(parseInt(this.value, 10)); };
+
+    document.getElementById('calcPackingCheck').onchange = function () {
+      withPacking = this.checked;
+      document.getElementById('calcPackingLabel').classList.toggle('active', withPacking);
+      render();
+    };
+
+    document.getElementById('calcUnpackingCheck').onchange = function () {
+      withUnpacking = this.checked;
+      document.getElementById('calcUnpackingLabel').classList.toggle('active', withUnpacking);
+      render();
+    };
+
+    render();
+  })();
+
+  // ─── BACKGROUND VIDEO SCROLL ANIMATION ──────────────
+  (function () {
+    var FRAME_COUNT = 193;
+    var canvas = document.getElementById('bgCanvas');
+    if (!canvas) return;
+
+    var ctx = canvas.getContext('2d');
+    var currentFrameIdx = 1;
+    var rafPending = false;
+
+    // Resize canvas to always fill the full viewport
+    function resizeCanvas() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawFrame(frames[currentFrameIdx]);
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    // Cover-fill: fills entire canvas, crops if aspect ratios differ
+    function drawFrame(img) {
+      if (!img || !img.complete || !img.naturalWidth) return;
+      var scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
+      var w = img.naturalWidth  * scale;
+      var h = img.naturalHeight * scale;
+      ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+    }
+
+    // Preload all frames
+    var frames = new Array(FRAME_COUNT + 1);
+    var loadedCount = 0;
+
+    function frameSrc(i) {
+      return 'frames/frame_' + String(i).padStart(5, '0') + '.jpg';
+    }
+
+    for (var i = 1; i <= FRAME_COUNT; i++) {
+      (function(idx) {
+        var img = new Image();
+        img.onload = function() {
+          loadedCount++;
+          if (idx === 1) { resizeCanvas(); } // draw first frame immediately
+        };
+        img.src = frameSrc(idx);
+        frames[idx] = img;
+      })(i);
+    }
+
+    // Map total page scroll (0→1) to frame index
+    function update() {
+      rafPending = false;
+      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      var progress  = maxScroll > 0 ? Math.max(0, Math.min(1, window.scrollY / maxScroll)) : 0;
+      var frameIdx  = Math.max(1, Math.min(FRAME_COUNT, Math.round(progress * (FRAME_COUNT - 1)) + 1));
+
+      if (frameIdx !== currentFrameIdx) {
+        currentFrameIdx = frameIdx;
+        drawFrame(frames[frameIdx]);
+      }
+    }
+
+    window.addEventListener('scroll', function() {
+      if (!rafPending) { rafPending = true; requestAnimationFrame(update); }
+    }, { passive: true });
+
+    resizeCanvas();
+  })();
+
+  // ─── I18N ENGINE ────────────────────────────────────
+  (function () {
+    var LANGS = {
+      he: { name: 'עברית',   flag: 'fi-il', dir: 'rtl' },
+      en: { name: 'English', flag: 'fi-us', dir: 'ltr' },
+      fr: { name: 'Français',flag: 'fi-fr', dir: 'ltr' }
+    };
+    var cache = {};
+    var currentLang = 'he';
+
+    function getLangFromPath() {
+      var p = window.location.pathname.replace(/^\//, '');
+      return LANGS[p] ? p : 'he';
+    }
+
+    function t(data, key) {
+      var parts = key.split('.');
+      var v = data;
+      for (var i = 0; i < parts.length; i++) {
+        if (v == null) return key;
+        v = v[parts[i]];
+      }
+      return v != null ? v : key;
+    }
+
+    function applyTranslations(data) {
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        el.textContent = t(data, key);
+      });
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-html');
+        el.innerHTML = t(data, key);
+      });
+      document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-aria');
+        el.setAttribute('aria-label', t(data, key));
+      });
+      document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-alt');
+        el.setAttribute('alt', t(data, key));
+      });
+    }
+
+    function applyLang(lang, data) {
+      var info = LANGS[lang];
+      var html = document.documentElement;
+      html.setAttribute('lang', lang);
+      html.setAttribute('dir', info.dir);
+      document.body.style.direction = info.dir;
+      document.body.style.textAlign = info.dir === 'rtl' ? 'right' : 'left';
+
+      document.title = t(data, 'meta.title');
+      var metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', t(data, 'meta.description'));
+
+      applyTranslations(data);
+
+      // Update lang switcher button
+      var btnFlag = document.getElementById('langBtnFlag');
+      var btnName = document.getElementById('langBtnName');
+      if (btnFlag) {
+        btnFlag.className = 'fi ' + info.flag + ' lang-flag';
+      }
+      if (btnName) btnName.textContent = info.name;
+
+      // Mark active option
+      document.querySelectorAll('.lang-option').forEach(function (btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+
+      currentLang = lang;
+    }
+
+    function loadAndApply(lang) {
+      if (cache[lang]) {
+        applyLang(lang, cache[lang]);
+        window.scrollTo(0, 0);
+        document.body.classList.add('i18n-ready');
+        return;
+      }
+      fetch('/locales/' + lang + '.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          cache[lang] = data;
+          applyLang(lang, data);
+          window.scrollTo(0, 0);
+          document.body.classList.add('i18n-ready');
+        })
+        .catch(function () {
+          window.scrollTo(0, 0);
+          document.body.classList.add('i18n-ready');
+        });
+    }
+
+    function switchLang(lang) {
+      if (!LANGS[lang]) return;
+      window.history.pushState({}, '', '/' + lang);
+      loadAndApply(lang);
+      document.getElementById('langSwitcher').classList.remove('open');
+      document.getElementById('langBtn').setAttribute('aria-expanded', 'false');
+    }
+
+    // Lang switcher toggle
+    document.getElementById('langBtn').addEventListener('click', function (e) {
+      e.stopPropagation();
+      var sw = document.getElementById('langSwitcher');
+      var open = sw.classList.toggle('open');
+      this.setAttribute('aria-expanded', String(open));
+    });
+
+    // Option clicks
+    document.querySelectorAll('.lang-option').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        switchLang(this.getAttribute('data-lang'));
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function (e) {
+      var sw = document.getElementById('langSwitcher');
+      if (!sw.contains(e.target)) {
+        sw.classList.remove('open');
+        document.getElementById('langBtn').setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Browser back/forward
+    window.addEventListener('popstate', function () {
+      loadAndApply(getLangFromPath());
+    });
+
+    // Boot
+    loadAndApply(getLangFromPath());
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+[build]
+  publish = "."
+
+# Root → Hebrew (redirect)
+[[redirects]]
+  from = "/"
+  to   = "/he"
+  status = 302
+
+# Language routes → index.html (rewrite — URL stays as /he, /en, /fr)
+[[redirects]]
+  from = "/he"
+  to   = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/en"
+  to   = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/fr"
+  to   = "/index.html"
+  status = 200
