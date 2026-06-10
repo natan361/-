@@ -221,11 +221,38 @@
       line-height: 1.15;
       margin-bottom: 14px;
       letter-spacing: -1px;
+      position: relative;
+      overflow: hidden;
     }
 
     .hero h1 em {
       font-style: normal;
       color: var(--orange);
+    }
+
+    .hero h1::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 0;
+      width: 60%;
+      height: 200%;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.32) 50%,
+        transparent 100%
+      );
+      transform: translateX(-200%) skewX(-15deg);
+      animation: hero-shimmer 3s linear 1.5s infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes hero-shimmer {
+      0%   { transform: translateX(-200%) skewX(-15deg); }
+      50%  { transform: translateX(280%)  skewX(-15deg); }
+      100% { transform: translateX(280%)  skewX(-15deg); }
     }
 
     .hero-sub {
