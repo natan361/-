@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nimble-lamington-cb440e.netlify.app/sitemap.xml
+Sitemap: https://eli-mover.com/sitemap.xml
