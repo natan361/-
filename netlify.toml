@@ -1,6 +1,13 @@
 [build]
   publish = "."
 
+# Google Search Console verification – must be served before any redirect
+[[redirects]]
+  from   = "/googleaa45a86ea5a94905.html"
+  to     = "/googleaa45a86ea5a94905.html"
+  status = 200
+  force  = true
+
 # Root → Hebrew (redirect)
 [[redirects]]
   from = "/"
