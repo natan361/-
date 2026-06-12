@@ -2803,11 +2803,11 @@
 </section>
 
 <!-- ─── TESTIMONIALS ─────────────────────────────── -->
-<section class="section" id="testimonials" style="background:var(--navy);padding:50px 0;">
+<section class="section section-alt" id="testimonials" style="padding:50px 0;">
   <div class="section-inner">
     <div class="section-header">
-      <div class="section-eyebrow" style="color:var(--orange);">לקוחות מספרים</div>
-      <h2 class="section-title" style="color:#fff;">מה אומרים עלינו</h2>
+      <div class="section-eyebrow">לקוחות מספרים</div>
+      <h2 class="section-title">מה אומרים עלינו</h2>
     </div>
 
     <div class="tst-wrap">
@@ -2911,15 +2911,17 @@
     align-items: center;
     text-align: center;
     gap: 13px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.6);
+    border: 1px solid rgba(13,37,83,0.08);
     border-radius: 16px;
     padding: 26px 28px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .tst-card.active { display: flex; }
   .tst-stars { color: #f5c518; font-size: 1.1rem; letter-spacing: 2px; }
   .tst-text {
-    color: rgba(255,255,255,0.78);
+    color: var(--text-soft);
     font-size: 0.88rem;
     line-height: 1.7;
     font-style: italic;
@@ -2938,28 +2940,28 @@
     font-weight: 700; font-size: 0.8rem; color: #fff;
     flex-shrink: 0;
   }
-  .tst-name { font-weight: 700; color: #fff; font-size: 0.88rem; }
-  .tst-role { color: rgba(255,255,255,0.4); font-size: 0.76rem; margin-top: 1px; }
+  .tst-name { font-weight: 700; color: var(--navy); font-size: 0.88rem; }
+  .tst-role { color: var(--text-soft); font-size: 0.76rem; margin-top: 1px; }
   .tst-nav {
     display: flex; align-items: center; justify-content: center;
     gap: 12px; margin-top: 20px;
   }
   .tst-btn {
     width: 36px; height: 36px; border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    background: transparent; color: #fff;
+    border: 1.5px solid rgba(13,37,83,0.2);
+    background: transparent; color: var(--navy);
     font-size: 1.2rem; cursor: pointer; line-height: 1;
     display: flex; align-items: center; justify-content: center;
     transition: background 0.2s, border-color 0.2s;
   }
-  .tst-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+  .tst-btn:hover { background: rgba(13,37,83,0.06); border-color: var(--navy); }
   .tst-dots { display: flex; gap: 6px; align-items: center; }
   .tst-dot {
     width: 7px; height: 7px; border-radius: 50%;
-    background: rgba(255,255,255,0.2); cursor: pointer;
+    background: rgba(13,37,83,0.2); cursor: pointer;
     transition: background 0.25s, width 0.25s, border-radius 0.25s;
   }
-  .tst-dot.active { background: #fff; width: 18px; border-radius: 4px; }
+  .tst-dot.active { background: var(--navy); width: 18px; border-radius: 4px; }
   @media(max-width:600px){
     .tst-card { padding: 20px 16px; }
     .tst-text { font-size: 0.84rem; }
