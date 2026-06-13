@@ -2394,13 +2394,13 @@
       <!-- Progress -->
       <div class="qw-progress">
         <div class="qw-progress-steps">
-          <div class="qw-ps active" id="qwPs1"><div class="qw-ps-dot">1</div><span class="qw-ps-label">פרטי הובלה</span></div>
+          <div class="qw-ps active" id="qwPs1"><div class="qw-ps-dot">1</div><span class="qw-ps-label" data-i18n="qw.progress_1">פרטי הובלה</span></div>
           <div class="qw-ps-line" id="qwLine1"></div>
-          <div class="qw-ps" id="qwPs2"><div class="qw-ps-dot">2</div><span class="qw-ps-label">שירותים</span></div>
+          <div class="qw-ps" id="qwPs2"><div class="qw-ps-dot">2</div><span class="qw-ps-label" data-i18n="qw.progress_2">שירותים</span></div>
           <div class="qw-ps-line" id="qwLine2"></div>
-          <div class="qw-ps" id="qwPs3"><div class="qw-ps-dot">3</div><span class="qw-ps-label">כתובות</span></div>
+          <div class="qw-ps" id="qwPs3"><div class="qw-ps-dot">3</div><span class="qw-ps-label" data-i18n="qw.progress_3">כתובות</span></div>
           <div class="qw-ps-line" id="qwLine3"></div>
-          <div class="qw-ps" id="qwPs4"><div class="qw-ps-dot">4</div><span class="qw-ps-label">סיכום</span></div>
+          <div class="qw-ps" id="qwPs4"><div class="qw-ps-dot">4</div><span class="qw-ps-label" data-i18n="qw.progress_4">סיכום</span></div>
         </div>
       </div>
 
@@ -2409,78 +2409,78 @@
 
         <!-- ── STEP 1: Moving Details ── -->
         <div class="qw-step active" id="qwStep1">
-          <div class="qw-step-title">פרטי ההובלה</div>
+          <div class="qw-step-title" data-i18n="qw.step1_title">פרטי ההובלה</div>
 
           <div class="qw-field">
-            <span class="qw-field-label">מספר חדרים</span>
-            <div class="qw-field-hint">החדרים קובעים את מחיר הבסיס</div>
+            <span class="qw-field-label" data-i18n="qw.rooms_label">מספר חדרים</span>
+            <div class="qw-field-hint" data-i18n="qw.rooms_desc">החדרים קובעים את מחיר הבסיס</div>
             <div class="qw-stepper">
-              <button type="button" class="qw-stepper-btn" id="qwRoomsM" aria-label="הפחת חדר">−</button>
+              <button type="button" class="qw-stepper-btn" id="qwRoomsM" data-i18n-aria="qw.dec" aria-label="הפחת">−</button>
               <div class="qw-stepper-val" id="qwRoomsV">1</div>
-              <button type="button" class="qw-stepper-btn" id="qwRoomsP" aria-label="הוסף חדר">+</button>
+              <button type="button" class="qw-stepper-btn" id="qwRoomsP" data-i18n-aria="qw.inc" aria-label="הוסף">+</button>
             </div>
             <div class="qw-stepper-hint" id="qwRoomsHint">₪1,499</div>
           </div>
 
           <div class="qw-field">
-            <span class="qw-field-label">קומה – נכס נוכחי</span>
+            <span class="qw-field-label" data-i18n="qw.pickup_floor_label">קומה – נכס נוכחי</span>
             <div class="qw-stepper">
-              <button type="button" class="qw-stepper-btn" id="qwPFlM" aria-label="הפחת">−</button>
+              <button type="button" class="qw-stepper-btn" id="qwPFlM" data-i18n-aria="qw.dec" aria-label="הפחת">−</button>
               <div class="qw-stepper-val" id="qwPFlV">קרקע</div>
-              <button type="button" class="qw-stepper-btn" id="qwPFlP" aria-label="הוסף">+</button>
+              <button type="button" class="qw-stepper-btn" id="qwPFlP" data-i18n-aria="qw.inc" aria-label="הוסף">+</button>
             </div>
           </div>
 
           <div class="qw-field" id="qwPElevF" style="display:none;">
-            <span class="qw-field-label">מעלית זמינה – נכס נוכחי?</span>
-            <div class="qw-field-hint">מעלית שמשמשת גם להובלת ארגזים ורהיטים</div>
+            <span class="qw-field-label" data-i18n="qw.pickup_elev_label">מעלית זמינה – נכס נוכחי?</span>
+            <div class="qw-field-hint" data-i18n="qw.elev_hint">מעלית שמשמשת גם להובלת ארגזים ורהיטים</div>
             <div class="qw-choice-row">
-              <button type="button" class="qw-choice" id="qwPEY">כן, יש מעלית</button>
-              <button type="button" class="qw-choice" id="qwPEN">אין מעלית</button>
+              <button type="button" class="qw-choice" id="qwPEY" data-i18n="qw.elev_yes">כן, יש מעלית</button>
+              <button type="button" class="qw-choice" id="qwPEN" data-i18n="qw.elev_no">אין מעלית</button>
             </div>
           </div>
 
           <div class="qw-field">
-            <span class="qw-field-label">קומה – נכס חדש</span>
+            <span class="qw-field-label" data-i18n="qw.dest_floor_label">קומה – נכס חדש</span>
             <div class="qw-stepper">
-              <button type="button" class="qw-stepper-btn" id="qwDFlM" aria-label="הפחת">−</button>
+              <button type="button" class="qw-stepper-btn" id="qwDFlM" data-i18n-aria="qw.dec" aria-label="הפחת">−</button>
               <div class="qw-stepper-val" id="qwDFlV">קרקע</div>
-              <button type="button" class="qw-stepper-btn" id="qwDFlP" aria-label="הוסף">+</button>
+              <button type="button" class="qw-stepper-btn" id="qwDFlP" data-i18n-aria="qw.inc" aria-label="הוסף">+</button>
             </div>
           </div>
 
           <div class="qw-field" id="qwDElevF" style="display:none;">
-            <span class="qw-field-label">מעלית זמינה – נכס חדש?</span>
-            <div class="qw-field-hint">מעלית שמשמשת גם להובלת ארגזים ורהיטים</div>
+            <span class="qw-field-label" data-i18n="qw.dest_elev_label">מעלית זמינה – נכס חדש?</span>
+            <div class="qw-field-hint" data-i18n="qw.elev_hint">מעלית שמשמשת גם להובלת ארגזים ורהיטים</div>
             <div class="qw-choice-row">
-              <button type="button" class="qw-choice" id="qwDEY">כן, יש מעלית</button>
-              <button type="button" class="qw-choice" id="qwDEN">אין מעלית</button>
+              <button type="button" class="qw-choice" id="qwDEY" data-i18n="qw.elev_yes">כן, יש מעלית</button>
+              <button type="button" class="qw-choice" id="qwDEN" data-i18n="qw.elev_no">אין מעלית</button>
             </div>
           </div>
 
-          <div class="qw-err" id="qwErr1">נא לבחור לגבי המעלית לפני שממשיכים</div>
+          <div class="qw-err" id="qwErr1" data-i18n="qw.err_elev">נא לבחור לגבי המעלית לפני שממשיכים</div>
         </div><!-- /step1 -->
 
         <!-- ── STEP 2: Additional Services ── -->
         <div class="qw-step" id="qwStep2">
-          <div class="qw-step-title">שירותים נוספים</div>
+          <div class="qw-step-title" data-i18n="qw.step2_title">שירותים נוספים</div>
 
           <div class="qw-field">
-            <span class="qw-field-label">שירות אריזה מלאה</span>
-            <div class="qw-field-hint">הצוות יארוז את כל התכולה בקרטונים ובחומרי ריפוד</div>
+            <span class="qw-field-label" data-i18n="qw.packing_label">שירות אריזה מלאה</span>
+            <div class="qw-field-hint" data-i18n="qw.packing_hint">הצוות יארוז את כל התכולה בקרטונים ובחומרי ריפוד</div>
             <div class="qw-choice-row">
-              <button type="button" class="qw-choice" id="qwPackY">כן, רוצה אריזה</button>
-              <button type="button" class="qw-choice" id="qwPackN">לא, תודה</button>
+              <button type="button" class="qw-choice" id="qwPackY" data-i18n="qw.packing_yes">כן, רוצה אריזה</button>
+              <button type="button" class="qw-choice" id="qwPackN" data-i18n="qw.packing_no">לא, תודה</button>
             </div>
             <div class="qw-svc-price" id="qwPackPrice"></div>
           </div>
 
           <div class="qw-field">
-            <span class="qw-field-label">שירות פריקה וסידור מלא</span>
-            <div class="qw-field-hint">פריקת קרטונים, סידור הפריטים, פינוי קרטונים ריקים</div>
+            <span class="qw-field-label" data-i18n="qw.unpacking_label">שירות פריקה וסידור מלא</span>
+            <div class="qw-field-hint" data-i18n="qw.unpacking_hint">פריקת קרטונים, סידור הפריטים, פינוי קרטונים ריקים</div>
             <div class="qw-choice-row">
-              <button type="button" class="qw-choice" id="qwUnpackY">כן, רוצה פריקה</button>
-              <button type="button" class="qw-choice" id="qwUnpackN">לא, תודה</button>
+              <button type="button" class="qw-choice" id="qwUnpackY" data-i18n="qw.unpacking_yes">כן, רוצה פריקה</button>
+              <button type="button" class="qw-choice" id="qwUnpackN" data-i18n="qw.unpacking_no">לא, תודה</button>
             </div>
             <div class="qw-svc-price" id="qwUnpackPrice"></div>
           </div>
@@ -2488,91 +2488,91 @@
           <div class="qw-divider"></div>
 
           <div class="qw-field">
-            <span class="qw-field-label">ארונות בגדים</span>
-            <div class="qw-field-hint">פירוק, הובלה והרכבה – ₪600 לארון</div>
+            <span class="qw-field-label" data-i18n="qw.wardrobes_label">ארונות בגדים</span>
+            <div class="qw-field-hint" data-i18n="qw.wardrobes_hint">פירוק, הובלה והרכבה – ₪600 לארון</div>
             <div class="qw-stepper">
-              <button type="button" class="qw-stepper-btn" id="qwWardrM" aria-label="הפחת">−</button>
+              <button type="button" class="qw-stepper-btn" id="qwWardrM" data-i18n-aria="qw.dec" aria-label="הפחת">−</button>
               <div class="qw-stepper-val" id="qwWardrV">0</div>
-              <button type="button" class="qw-stepper-btn" id="qwWardrP" aria-label="הוסף">+</button>
+              <button type="button" class="qw-stepper-btn" id="qwWardrP" data-i18n-aria="qw.inc" aria-label="הוסף">+</button>
             </div>
           </div>
 
           <div class="qw-field">
-            <span class="qw-field-label">מיטות</span>
-            <div class="qw-field-hint">פירוק, הובלה והרכבה – ₪300 למיטה</div>
+            <span class="qw-field-label" data-i18n="qw.beds_label">מיטות</span>
+            <div class="qw-field-hint" data-i18n="qw.beds_hint">פירוק, הובלה והרכבה – ₪300 למיטה</div>
             <div class="qw-stepper">
-              <button type="button" class="qw-stepper-btn" id="qwBedsM" aria-label="הפחת">−</button>
+              <button type="button" class="qw-stepper-btn" id="qwBedsM" data-i18n-aria="qw.dec" aria-label="הפחת">−</button>
               <div class="qw-stepper-val" id="qwBedsV">0</div>
-              <button type="button" class="qw-stepper-btn" id="qwBedsP" aria-label="הוסף">+</button>
+              <button type="button" class="qw-stepper-btn" id="qwBedsP" data-i18n-aria="qw.inc" aria-label="הוסף">+</button>
             </div>
           </div>
 
           <div class="qw-divider"></div>
 
           <div class="qw-field">
-            <span class="qw-field-label">כספת</span>
-            <div class="qw-field-hint">הובלת כספת – תוספת ₪600</div>
+            <span class="qw-field-label" data-i18n="qw.safe_label">כספת</span>
+            <div class="qw-field-hint" data-i18n="qw.safe_hint">הובלת כספת – תוספת ₪600</div>
             <div class="qw-choice-row">
-              <button type="button" class="qw-choice" id="qwSafeY">כן</button>
-              <button type="button" class="qw-choice" id="qwSafeN">לא</button>
+              <button type="button" class="qw-choice" id="qwSafeY" data-i18n="qw.yes">כן</button>
+              <button type="button" class="qw-choice" id="qwSafeN" data-i18n="qw.no">לא</button>
             </div>
           </div>
 
           <div class="qw-field">
-            <span class="qw-field-label">שולחן שיש</span>
-            <div class="qw-field-hint">הובלת שולחן שיש כבד – תוספת ₪1,000</div>
+            <span class="qw-field-label" data-i18n="qw.marble_label">שולחן שיש</span>
+            <div class="qw-field-hint" data-i18n="qw.marble_hint">הובלת שולחן שיש כבד – תוספת ₪1,000</div>
             <div class="qw-choice-row">
-              <button type="button" class="qw-choice" id="qwMarbleY">כן</button>
-              <button type="button" class="qw-choice" id="qwMarbleN">לא</button>
+              <button type="button" class="qw-choice" id="qwMarbleY" data-i18n="qw.yes">כן</button>
+              <button type="button" class="qw-choice" id="qwMarbleN" data-i18n="qw.no">לא</button>
             </div>
           </div>
         </div><!-- /step2 -->
 
         <!-- ── STEP 3: Addresses ── -->
         <div class="qw-step" id="qwStep3">
-          <div class="qw-step-title">כתובות</div>
+          <div class="qw-step-title" data-i18n="qw.step3_title">כתובות</div>
 
           <div class="qw-field">
-            <span class="qw-field-label">כתובת הנכס הנוכחי</span>
+            <span class="qw-field-label" data-i18n="qw.addr_from_label">כתובת הנכס הנוכחי</span>
             <div class="qw-ac-wrap">
-              <input type="text" id="qwAddrFrom" class="qw-addr-input" placeholder="הכניסו כתובת מוצא..." autocomplete="off" />
+              <input type="text" id="qwAddrFrom" class="qw-addr-input" data-i18n-ph="qw.addr_from_ph" placeholder="הכניסו כתובת מוצא..." autocomplete="off" />
               <div class="qw-ac-list hidden" id="qwAcFrom" role="listbox"></div>
             </div>
           </div>
 
           <div class="qw-field">
-            <span class="qw-field-label">כתובת הנכס החדש</span>
+            <span class="qw-field-label" data-i18n="qw.addr_to_label">כתובת הנכס החדש</span>
             <div class="qw-ac-wrap">
-              <input type="text" id="qwAddrTo" class="qw-addr-input" placeholder="הכניסו כתובת יעד..." autocomplete="off" />
+              <input type="text" id="qwAddrTo" class="qw-addr-input" data-i18n-ph="qw.addr_to_ph" placeholder="הכניסו כתובת יעד..." autocomplete="off" />
               <div class="qw-ac-list hidden" id="qwAcTo" role="listbox"></div>
             </div>
           </div>
 
           <div id="qwTransBadge" class="qw-transport-badge hidden"></div>
 
-          <p class="qw-skip-note">ניתן לדלג – יחושב מחדש בשיחת האישור</p>
+          <p class="qw-skip-note" data-i18n="qw.skip_note">ניתן לדלג – יחושב מחדש בשיחת האישור</p>
         </div><!-- /step3 -->
 
         <!-- ── STEP 4: Summary ── -->
         <div class="qw-step" id="qwStep4">
-          <div class="qw-step-title">הצעת המחיר שלכם</div>
+          <div class="qw-step-title" data-i18n="qw.step4_title">הצעת המחיר שלכם</div>
 
           <div class="qw-breakdown" id="qwBreakdown"></div>
 
           <div class="qw-total-box" aria-live="polite" aria-atomic="true" role="status">
-            <div class="qw-total-label">סה״כ משוער</div>
+            <div class="qw-total-label" data-i18n="qw.total_label">סה״כ משוער</div>
             <span class="qw-total-amount" id="qwTotal">₪0</span>
-            <p class="qw-total-note">הצעת מחיר ראשונית · המחיר הסופי נקבע לאחר שיחה קצרה עם אלי</p>
+            <p class="qw-total-note" data-i18n="qw.total_note">הצעת מחיר ראשונית · המחיר הסופי נקבע לאחר שיחה קצרה עם אלי</p>
           </div>
 
           <div class="qw-ctas">
             <a id="qwWaBtn" href="https://wa.me/972529014037" class="qw-cta-wa" target="_blank" rel="noopener">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="white" aria-hidden="true" focusable="false"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.82.736 5.47 2.027 7.773L0 32l8.418-2.002A15.928 15.928 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 0 1-6.748-1.836l-.484-.286-5 1.19 1.21-4.863-.32-.504A13.236 13.236 0 0 1 2.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.267-9.897c-.397-.198-2.35-1.16-2.715-1.292-.364-.13-.63-.198-.896.198-.265.396-1.03 1.292-1.262 1.557-.232.264-.464.297-.861.099-.397-.198-1.678-.619-3.196-1.974-1.18-1.055-1.977-2.358-2.21-2.755-.232-.396-.025-.61.174-.807.18-.178.397-.465.596-.696.198-.232.265-.397.396-.662.132-.265.066-.496-.033-.695-.1-.198-.897-2.162-1.228-2.96-.323-.775-.65-.67-.896-.683h-.762c-.265 0-.695.1-1.06.496-.364.397-1.393 1.36-1.393 3.318s1.427 3.848 1.625 4.113c.199.265 2.807 4.285 6.803 6.009.951.41 1.693.655 2.271.838.954.304 1.822.261 2.51.158.765-.114 2.35-.96 2.682-1.888.33-.928.33-1.723.231-1.888-.099-.165-.364-.264-.762-.462z"/></svg>
-              שלחו הצעה בוואטסאפ
+              <span data-i18n="qw.cta_wa">שלחו הצעה בוואטסאפ</span>
             </a>
             <a href="tel:0532253537" class="qw-cta-call">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              התקשרו עכשיו
+              <span data-i18n="qw.cta_call">התקשרו עכשיו</span>
             </a>
           </div>
         </div><!-- /step4 -->
@@ -2581,7 +2581,7 @@
 
       <!-- Navigation -->
       <div class="qw-nav">
-        <button type="button" class="qw-btn-back hidden" id="qwBack">חזרה</button>
+        <button type="button" class="qw-btn-back hidden" id="qwBack" data-i18n="qw.back">חזרה</button>
         <button type="button" class="qw-btn-next" id="qwNext">המשך</button>
       </div>
 
@@ -3282,8 +3282,20 @@
       transport: 0,   bothJerusalem: false
     };
 
-    function fmt(n) { return '₪' + n.toLocaleString('he-IL'); }
-    function floorLabel(f) { return f === 0 ? 'קרקע' : 'קומה ' + f; }
+    // Translation helper: reads the active language exposed by the i18n engine.
+    // Falls back to the key (Hebrew content already in the DOM) before i18n boots.
+    function qwT(key, repl) {
+      var s = (window.I18N && typeof window.I18N.t === 'function') ? window.I18N.t(key) : key;
+      if (repl) for (var k in repl) s = s.split('{' + k + '}').join(repl[k]);
+      return s;
+    }
+    function curLocale() {
+      var l = (window.I18N && window.I18N.lang) || 'he';
+      return l === 'en' ? 'en-US' : l === 'fr' ? 'fr-FR' : 'he-IL';
+    }
+
+    function fmt(n) { return '₪' + n.toLocaleString(curLocale()); }
+    function floorLabel(f) { return f === 0 ? qwT('qw.ground') : qwT('qw.floor_n', { n: f }); }
 
     function basePrice() {
       if (W.rooms === 1) return 1499;
@@ -3353,7 +3365,10 @@
       var back = document.getElementById('qwBack');
       var next = document.getElementById('qwNext');
       back.classList.toggle('hidden', W.step === 1);
-      next.textContent = W.step === 4 ? 'שלח בוואטסאפ' : 'המשך';
+      // Leave the HTML default until the i18n engine has loaded a language.
+      if (window.I18N && window.I18N.data) {
+        next.textContent = W.step === 4 ? qwT('qw.send_wa') : qwT('qw.next');
+      }
     }
 
     function showStep(n) {
@@ -3407,24 +3422,24 @@
     function renderSummary() {
       var t = totals();
       var rows = [
-        { label: 'הובלה בסיסית (' + W.rooms + ' חד\')', val: t.base },
-        t.pFloor  ? { label: 'תוספת קומה – מוצא (קומה ' + W.pickupFloor + ')', val: t.pFloor } : null,
-        t.dFloor  ? { label: 'תוספת קומה – יעד (קומה ' + W.destFloor + ')',   val: t.dFloor } : null,
-        t.pack    ? { label: 'שירות אריזה',     val: t.pack   } : null,
-        t.unpack  ? { label: 'פריקה וסידור',    val: t.unpack } : null,
-        t.wardr   ? { label: 'ארונות (' + W.wardrobes + ')', val: t.wardr } : null,
-        t.beds    ? { label: 'מיטות (' + W.beds + ')',       val: t.beds  } : null,
-        t.safe    ? { label: 'כספת',            val: t.safe   } : null,
-        t.marble  ? { label: 'שולחן שיש',       val: t.marble } : null,
-        t.trans   ? { label: 'הובלה בין-עירונית', val: t.trans } : null,
-        W.bothJerusalem ? { label: 'הובלה בתוך ירושלים', val: 0, free: true } : null
+        { label: qwT('qw.bd_base', { n: W.rooms }), val: t.base },
+        t.pFloor  ? { label: qwT('qw.bd_floor_from', { n: W.pickupFloor }), val: t.pFloor } : null,
+        t.dFloor  ? { label: qwT('qw.bd_floor_to',   { n: W.destFloor }),   val: t.dFloor } : null,
+        t.pack    ? { label: qwT('qw.bd_packing'),   val: t.pack   } : null,
+        t.unpack  ? { label: qwT('qw.bd_unpacking'), val: t.unpack } : null,
+        t.wardr   ? { label: qwT('qw.bd_wardrobes', { n: W.wardrobes }), val: t.wardr } : null,
+        t.beds    ? { label: qwT('qw.bd_beds',      { n: W.beds }),      val: t.beds  } : null,
+        t.safe    ? { label: qwT('qw.bd_safe'),   val: t.safe   } : null,
+        t.marble  ? { label: qwT('qw.bd_marble'), val: t.marble } : null,
+        t.trans   ? { label: qwT('qw.bd_intercity'), val: t.trans } : null,
+        W.bothJerusalem ? { label: qwT('qw.bd_in_jerusalem'), val: 0, free: true } : null
       ].filter(Boolean);
 
       var html = rows.map(function(r) {
         return '<div class="qw-bd-row">' +
           '<span class="qw-bd-label">' + r.label + '</span>' +
           '<span class="qw-bd-value' + (r.free ? ' qw-bd-free' : '') + '">' +
-            (r.free ? 'ללא תוספת' : fmt(r.val)) +
+            (r.free ? qwT('qw.free') : fmt(r.val)) +
           '</span>' +
         '</div>';
       }).join('');
@@ -3441,21 +3456,23 @@
 
     // ── WhatsApp link ─────────────────────────────────
     function buildWa(t) {
+      var pElev = W.pickupElev === true ? qwT('qw.wa_elev') : W.pickupFloor > 0 ? qwT('qw.wa_no_elev') : '';
+      var dElev = W.destElev   === true ? qwT('qw.wa_elev') : W.destFloor   > 0 ? qwT('qw.wa_no_elev') : '';
       var lines = [
-        'שלום אלי, אשמח לקבל הצעת מחיר להובלה:',
-        'חדרים: ' + W.rooms,
-        'קומה מוצא: ' + floorLabel(W.pickupFloor) + (W.pickupElev === true ? ' (מעלית)' : W.pickupFloor > 0 ? ' (ללא מעלית)' : ''),
-        'קומה יעד: '  + floorLabel(W.destFloor)   + (W.destElev   === true ? ' (מעלית)' : W.destFloor   > 0 ? ' (ללא מעלית)' : '')
+        qwT('qw.wa_intro'),
+        qwT('qw.wa_rooms', { n: W.rooms }),
+        qwT('qw.wa_floor_from', { floor: floorLabel(W.pickupFloor) }) + pElev,
+        qwT('qw.wa_floor_to',   { floor: floorLabel(W.destFloor) })   + dElev
       ];
-      if (W.packing)      lines.push('שירות אריזה: כן');
-      if (W.unpacking)    lines.push('פריקה וסידור: כן');
-      if (W.wardrobes)    lines.push('ארונות: ' + W.wardrobes);
-      if (W.beds)         lines.push('מיטות: ' + W.beds);
-      if (W.safe)         lines.push('כספת: כן');
-      if (W.marble)       lines.push('שולחן שיש: כן');
-      if (W.addrFrom)     lines.push('מוצא: ' + W.addrFrom);
-      if (W.addrTo)       lines.push('יעד: '  + W.addrTo);
-      lines.push('הערכת מחיר: ' + fmt(t.total));
+      if (W.packing)      lines.push(qwT('qw.wa_packing'));
+      if (W.unpacking)    lines.push(qwT('qw.wa_unpacking'));
+      if (W.wardrobes)    lines.push(qwT('qw.wa_wardrobes', { n: W.wardrobes }));
+      if (W.beds)         lines.push(qwT('qw.wa_beds', { n: W.beds }));
+      if (W.safe)         lines.push(qwT('qw.wa_safe'));
+      if (W.marble)       lines.push(qwT('qw.wa_marble'));
+      if (W.addrFrom)     lines.push(qwT('qw.wa_from', { addr: W.addrFrom }));
+      if (W.addrTo)       lines.push(qwT('qw.wa_to',   { addr: W.addrTo }));
+      lines.push(qwT('qw.wa_estimate', { price: fmt(t.total) }));
       var msg = encodeURIComponent(lines.join('\n'));
       document.getElementById('qwWaBtn').href = 'https://wa.me/972529014037?text=' + msg;
     }
@@ -3545,6 +3562,21 @@
     document.getElementById('qwErr1').style.display = 'none';
     syncElevFields();
     roomsHint.textContent = fmt(basePrice());
+
+    // Re-render all JS-driven text when the language changes (called by the i18n engine).
+    window.__qwRerender = function () {
+      document.getElementById('qwPFlV').textContent = floorLabel(W.pickupFloor);
+      document.getElementById('qwDFlV').textContent = floorLabel(W.destFloor);
+      roomsHint.textContent = fmt(basePrice());
+      updateSvcHints();
+      updateNav();
+      if (W.step === 4) renderSummary();
+      if (typeof window.__qwRefreshBadge === 'function') window.__qwRefreshBadge();
+    };
+
+    // Share the translation helpers with the address/distance module below.
+    window.qwT = qwT;
+    window.curLocale = curLocale;
 
     window.__quoteWizardState = W;
   })();
@@ -3668,29 +3700,37 @@
       var badge = document.getElementById('qwTransBadge');
       badge.className = 'qw-transport-badge';
 
+      var T   = window.qwT      || function (k) { return k; };
+      var loc = window.curLocale ? window.curLocale() : 'he-IL';
+
       // Both addresses inside Jerusalem → no travel surcharge
       if (coordFrom.isJerusalem && coordTo.isJerusalem) {
         if (W) { W.transport = 0; W.distance_km = 0; W.bothJerusalem = true; }
-        badge.textContent = 'הובלה בתוך ירושלים – ללא תוספת נסיעה ✓';
+        badge.textContent = T('qw.badge_in_jerusalem');
         return;
       }
 
       if (W) W.bothJerusalem = false;
-      badge.textContent = '...מחשב מרחק';
+      badge.textContent = T('qw.badge_calculating');
 
       _distance(coordFrom, coordTo, function (res) {
         if (!res.success) {
-          badge.textContent = 'לא ניתן לחשב מרחק – יחושב בשיחת האישור';
+          badge.textContent = T('qw.badge_failed');
           if (W) { W.transport = 0; W.distance_km = 0; }
           return;
         }
         var km   = res.distance_km;
         var cost = Math.round(km) * 15;
         if (W) { W.transport = cost; W.distance_km = km; }
-        badge.textContent = 'מרחק: ' + km + ' ק"מ · תוספת נסיעה: '
-          + '₪' + cost.toLocaleString('he-IL');
+        badge.textContent = T('qw.badge_distance', { km: km, cost: cost.toLocaleString(loc) });
       });
     }
+
+    // Re-translate the transport badge when the language switches.
+    window.__qwRefreshBadge = function () {
+      var c = window._qwCoords;
+      if (c && c.from && c.to) _applyDistance(c.from, c.to);
+    };
 
     // ── Dropdown renderer ──────────────────────────────
     function _renderList(list, items, onPick) {
@@ -3719,7 +3759,7 @@
         var q = _norm(val);
         if (!q || q.length < 3) { list.className = 'qw-ac-list hidden'; return; }
 
-        list.innerHTML = '<div class="qw-ac-status">מחפש...</div>';
+        list.innerHTML = '<div class="qw-ac-status">' + (window.qwT ? window.qwT('qw.searching') : 'מחפש...') + '</div>';
         list.className = 'qw-ac-list';
 
         _search(q, function (results) {
@@ -3875,6 +3915,10 @@
         var key = el.getAttribute('data-i18n-alt');
         el.setAttribute('alt', t(data, key));
       });
+      document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-ph');
+        el.setAttribute('placeholder', t(data, key));
+      });
     }
 
     function applyLang(lang, data) {
@@ -3889,7 +3933,14 @@
       var metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) metaDesc.setAttribute('content', t(data, 'meta.description'));
 
+      // Expose current language + lookup so the quote wizard can translate
+      // its dynamically generated strings (floor labels, breakdown, WhatsApp text…).
+      window.I18N = { lang: lang, data: data, t: function (key) { return t(data, key); } };
+
       applyTranslations(data);
+
+      // Re-render the wizard's JS-driven text in the new language.
+      if (typeof window.__qwRerender === 'function') window.__qwRerender();
 
       // Update lang switcher button
       var btnFlag = document.getElementById('langBtnFlag');

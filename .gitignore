@@ -5,3 +5,6 @@ testsprite_tests/tmp/
 *company.asset*/
 *.mp4
 cloude.md.md
+
+# Local Netlify folder
+.netlify
