@@ -12,7 +12,7 @@
 [[redirects]]
   from = "/"
   to   = "/he"
-  status = 302
+  status = 301
 
 # Language routes → index.html (rewrite — URL stays as /he, /en, /fr)
 [[redirects]]
