@@ -2634,7 +2634,7 @@
             </div>
             <div class="why-item-text">
               <h4 data-i18n="why.item2_title">אחריות מלאה ורצינות מקצועית</h4>
-              <p data-i18n="why.item2_desc">אנחנו לוקחים אחריות מלאה על כל פריט מרגע האיסוף ועד ההנחה.</p>
+              <p data-i18n="why.item2_desc">אנחנו לוקחים אחריות מלאה על כל פריט מרגע האיסוף ועד ההנחה – בתנאי שהאריזה בוצעה על ידינו.</p>
             </div>
           </li>
 
@@ -3010,8 +3010,8 @@
     <div class="insurance-content">
       <h2 data-i18n="insurance.title">ביטוח מלא לכל הפריטים המועברים</h2>
       <p data-i18n="insurance.desc">
-        אנחנו מספקים כיסוי ביטוחי מלא לכל הפריטים המועברים.
-        אם השתמשתם בשירות האריזה שלנו, הכיסוי מורחב גם לפריטים שנארזו על ידינו –
+        אנחנו מספקים כיסוי ביטוחי מלא לכל הפריטים המועברים – בתנאי שהאריזה בוצעה על ידינו.
+        כיסוי מורחב חל על כל הפריטים שנארזו על ידינו –
         כולל מכשירי חשמל כגון מקרר, מכונת כביסה וכל ציוד הבית.
       </p>
     </div>
@@ -3033,7 +3033,7 @@
 </div>
 
 <!-- ─── CONTACT ────────────────────────────────────── -->
-<section class="section" id="contact">
+<section class="section section-alt" id="contact">
   <div class="section-inner">
     <div class="section-header">
       <div class="section-eyebrow" data-i18n="contact.eyebrow">צרו קשר</div>
@@ -3597,6 +3597,13 @@
   })();
 
   // ── Step 3 – Nominatim autocomplete + OSRM distance ─
+
+  // !!!  MAPBOX TOKEN — PASTE YOUR TOKEN BELOW  !!!
+  // Get it from: mapbox.com → Account → Access tokens → "Default public token"
+  // Format: "pk.eyJ1IjoiWU9VUl9VU0VSTkFNRSIsImEiOiJBQkNERUYifQ.XXXX..."
+  // Leave as null to skip Mapbox (geocoding will show badge_failed on Nominatim miss).
+  var _MAPBOX_TOKEN = null; // <-- PASTE YOUR MAPBOX TOKEN HERE
+
   window._qwPlacesReady = false;
   window.initQuoteWizardPlaces = (function () {
 
@@ -3658,20 +3665,44 @@
         .catch(function () { cb([]); });
     }
 
-    // ── Nominatim: geocode single (cache + fallback) ────
+    // ── Mapbox: geocode single ──────────────────────────
+    function _geocodeMapbox(query, cb) {
+      if (!_MAPBOX_TOKEN) { cb(null); return; }
+      var url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
+        + encodeURIComponent(query) + '.json'
+        + '?access_token=' + _MAPBOX_TOKEN + '&country=il&limit=1';
+      _fetch(url)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var f = data && data.features;
+          if (!f || !f.length) { cb(null); return; }
+          cb({ lat: f[0].center[1], lon: f[0].center[0] });
+        })
+        .catch(function () { cb(null); });
+    }
+
+    // ── Nominatim: geocode single (cache → Nominatim → Mapbox) ──
     function _geocode(query, cb) {
       var key = _norm(query);
       if (!key) { cb({ success: false, error: 'empty address' }); return; }
       var hit = _cacheGet(key);
       if (hit) { cb({ success: true, lat: hit.lat, lon: hit.lon, cached: true }); return; }
       _search(key, function (results) {
-        if (!results.length) {
-          cb({ success: false, error: 'no results for: ' + query });
+        if (results.length) {
+          var r = results[0];
+          _cacheSet(key, r.lat, r.lon);
+          cb({ success: true, lat: r.lat, lon: r.lon, cached: false });
           return;
         }
-        var r = results[0];
-        _cacheSet(key, r.lat, r.lon);
-        cb({ success: true, lat: r.lat, lon: r.lon, cached: false });
+        // Nominatim returned nothing — try Mapbox before giving up
+        _geocodeMapbox(key, function (coords) {
+          if (!coords) {
+            cb({ success: false, error: 'no results for: ' + query });
+            return;
+          }
+          _cacheSet(key, coords.lat, coords.lon);
+          cb({ success: true, lat: coords.lat, lon: coords.lon, cached: false });
+        });
       });
     }
 
