@@ -3313,9 +3313,11 @@
     function floorLabel(f) { return f === 0 ? qwT('qw.ground') : qwT('qw.floor_n', { n: f }); }
 
     function basePrice() {
-      if (W.rooms === 1) return 1499;
-      if (W.rooms === 2) return 1999;
-      return 1999 + (W.rooms - 2) * 500;
+      var base;
+      if (W.rooms === 1) base = 1499;
+      else if (W.rooms === 2) base = 1999;
+      else base = 1999 + (W.rooms - 2) * 500;
+      return base + 1500;
     }
 
     function floorCost(floor, hasElev) {
